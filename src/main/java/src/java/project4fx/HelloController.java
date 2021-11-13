@@ -27,6 +27,9 @@ public class HelloController {
     @FXML
     Button storeOrdersBtn;
 
+    public void openCurrentOrder(){
+
+    }
 
 
 }
