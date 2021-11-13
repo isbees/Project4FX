@@ -5,6 +5,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.image.*;
 
 public class Application extends javafx.application.Application {
 
