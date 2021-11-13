@@ -7,7 +7,6 @@ import java.util.ArrayList;
  *
  * @author Isaac Brukhman
  */
-
 public abstract class Pizza {
     protected ArrayList<Topping> toppings = new ArrayList<Topping>();
     protected Size size;
@@ -91,5 +90,20 @@ public abstract class Pizza {
                     pizza.size == this.size;    // make sure the pizzas have the same size
         }
         return false;
+    }
+
+    /**
+     * returns a list of the toppings indented
+     *
+     * @return String the toppings
+     */
+    public String toString(){
+        String output = "";
+
+        for (Topping t : toppings){
+            output += "\t" + t + "\n";
+        }
+
+        return output;
     }
 }

@@ -63,7 +63,18 @@ public class StoreOrders {
         this.orders = orders;
     }
 
-    public void print() {
+    /**
+     * Prints the orders financial information
+     *
+     * @return output the full order information
+     */
+    public String printOrders() {
+        String output = "";
 
+        for (Order o : orders) {
+            output += o.printOrder();
+        }
+
+        return output;
     }
 }

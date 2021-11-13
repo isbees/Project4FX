@@ -71,7 +71,7 @@ public class Order {
     /**
      * adds the price of every pizza into the total
      */
-    public double calcTotal() {
+    public double calcSubTotal() {
         double total = 0;
 
         for (Pizza p : pizzas) {
@@ -88,5 +88,52 @@ public class Order {
      */
     public int getNumber() {
         return phoneNumber;
+    }
+
+    /**
+     * Prints the orders financial information
+     *
+     * @return output the full order information
+     */
+    public String printOrder() {
+        String output = toString();
+        double subTotal = calcSubTotal();
+
+        output += String.format("Subtotal: %1.2f \nTax: %1.2f \n Order Total: %1.2f \n",subTotal,subTotal*.06625,subTotal+subTotal*.06625);
+
+        return output;
+    }
+
+    /**
+     * returns a list of the pizza flavors and toppings
+     *
+     * @return output the Pizza type and all the toppings
+     */
+    public String toString() {
+        String output = "Phone number: " + phoneNumber + "\nFull Order: \n";
+
+        for (Pizza p : pizzas)
+            output += findType(p) + "\n" + p.toString();
+
+        return output;
+    }
+
+
+    /**
+     * Returns the pizza flavor
+     *
+     * @param p the pizza you want to find the type of
+     * @return s the Pizza type
+     */
+    private String findType(Pizza p) {
+        String s = "";
+        if (p instanceof Deluxe) {
+            s = "Deluxe";
+        } else if (p instanceof Hawaiian) {
+            s = "Hawaiian";
+        } else if (p instanceof Pepperoni) {
+            s = "Pepperoni";
+        }
+        return s;
     }
 }
