@@ -38,6 +38,6 @@ public class Application extends javafx.application.Application {
         so.add(me,p1);
         System.out.println("here");
         //so.printOrders();
-        //launch();
+        launch();
     }
 }
