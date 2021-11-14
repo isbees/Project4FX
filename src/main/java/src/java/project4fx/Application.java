@@ -21,6 +21,23 @@ public class Application extends javafx.application.Application {
     }
 
     public static void main(String[] args) {
-        launch();
+        String num = "7325168892";
+        Pizza p1 = PizzaMaker.createPizza("Deluxe");
+        Pizza p2 = PizzaMaker.createPizza("Hawaiian");
+        Pizza p3 = PizzaMaker.createPizza("Pepperoni");
+
+        StoreOrders so = new StoreOrders();
+
+        Order me = new Order(p1,num);
+        System.out.println(me.printOrder());
+        me = new Order(p2,num);
+        System.out.println(me.printOrder());
+        me = new Order(p3,num);
+        System.out.println(me.printOrder());
+
+        so.add(me,p1);
+        System.out.println("here");
+        //so.printOrders();
+        //launch();
     }
 }

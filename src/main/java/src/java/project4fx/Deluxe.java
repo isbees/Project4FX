@@ -13,7 +13,12 @@ public class Deluxe extends Pizza {
      * Default constructor
      */
     public Deluxe(){
-        super();
+        size = Size.Small;
+        addTopping(Topping.Mozzarella);
+        addTopping(Topping.Mushroom);
+        addTopping(Topping.Pepperoni);
+        addTopping(Topping.Spinach);
+        addTopping(Topping.Olives);
     }
 
     /**

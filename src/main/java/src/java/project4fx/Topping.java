@@ -6,5 +6,5 @@ package src.java.project4fx;
  * @author Isaac Brukhman
  */
 public enum Topping {
-    Pepperoni, Mushroom, Pineapple, Mozzarella, Feta, Spinach, Chicken
+    Pepperoni, Mushroom, Pineapple, Mozzarella, Olives, Spinach, Ham
 }

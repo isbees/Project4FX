@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" prefHeight="476.0" prefWidth="411.0" spacing="20.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.java.project4fx.HelloController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+   <Label fx:id="labelZachIsaacPizzeria" text="Zach and Isaac's Pizzeria" textFill="#ff3434" />
+   <HBox fillHeight="false" prefHeight="100.0" prefWidth="200.0">
+      <VBox.margin>
+         <Insets />
+      </VBox.margin>
+      <children>
+         <Label fx:id="labelCustPhoneNumber" text="Customer phone number:" textFill="#9a9090" />
+         <TextField fx:id="custPhoneNumber">
+            <HBox.margin>
+               <Insets left="20.0" />
+            </HBox.margin>
+         </TextField>
+      </children>
+   </HBox>
+   <VBox prefHeight="547.0" prefWidth="355.0">
+      <children>
+         <Button fx:id="deluxeBtn" contentDisplay="TOP" mnemonicParsing="false" text="order Deluxe">
+            <VBox.margin>
+               <Insets bottom="20.0" />
+            </VBox.margin>
+            <graphic>
+               <ImageView fx:id="deluxeImgView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../../../PizzaPics/Deluxe.jpg" />
+                  </image></ImageView>
+            </graphic>
+         </Button>
+         <Button fx:id="hawaiianBtn" contentDisplay="TOP" mnemonicParsing="false" text="order Hawaiian">
+            <VBox.margin>
+               <Insets bottom="20.0" />
+            </VBox.margin>
+            <graphic>
+               <ImageView fx:id="hawaiianImgView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../../../PizzaPics/Hawaiian.jpg" />
+                  </image>
+               </ImageView>
+            </graphic>
+         </Button>
+         <Button fx:id="pepperoniBtn" contentDisplay="TOP" mnemonicParsing="false" text="order Pepperoni">
+            <graphic>
+               <ImageView fx:id="pepperoniImgView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../../../PizzaPics/Pepperoni.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+            <VBox.margin>
+               <Insets />
+            </VBox.margin>
+         </Button>
+         <VBox prefHeight="200.0" prefWidth="100.0">
+            <children>
+               <Button fx:id="currentOrderBtn" mnemonicParsing="false" onAction="#openCurrentOrder" text="Current Order" translateY="15.0">
+                  <VBox.margin>
+                     <Insets />
+                  </VBox.margin>
+               </Button>
+               <Button fx:id="storeOrdersBtn" mnemonicParsing="false" text="Store Orders" translateX="250.0" translateY="-15.0" />
+            </children>
+         </VBox>
+      </children>
+   </VBox>
+</VBox>

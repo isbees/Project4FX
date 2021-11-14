@@ -42,12 +42,19 @@ public abstract class Pizza {
      * @param topping the topping trying to be added
      */
     public void addTopping(Topping topping) {
-        for (Topping t : toppings) {
-            if (t == topping) {
+        //System.out.println("Adding a topping " + topping);
+        Topping t;
+
+        for (int i = 0; i < toppings.size()+1; i++) {
+            if(toppings.isEmpty()) {
+                toppings.add(topping);
+                break;
+            }
+            if (toppings.get(i) == topping) {
                 continue;
             }
-
             toppings.add(topping);
+            break;
         }
     }
 
@@ -99,7 +106,7 @@ public abstract class Pizza {
      */
     public String toString(){
         String output = "";
-
+        System.out.println("The topping list size: " + toppings.size());
         for (Topping t : toppings){
             output += "\t" + t + "\n";
         }

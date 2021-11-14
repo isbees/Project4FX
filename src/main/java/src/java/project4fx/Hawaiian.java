@@ -14,6 +14,8 @@ public class Hawaiian extends Pizza {
      */
     public Hawaiian(){
         super();
+        super.addTopping(Topping.Pineapple);
+        super.addTopping(Topping.Ham);
     }
 
     /**

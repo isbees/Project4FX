@@ -14,14 +14,13 @@ public class PizzaMaker {
      * @return Pizza the pizza type that was created
      */
     public static Pizza createPizza(String flavor) {
-        Pizza p = new Pepperoni();  // default is pepperoni so that I don't need to initialize the pizza
-
         switch (flavor){
-            case "Deluxe": p = new Deluxe(); break;
-            case "Hawaiian": p = new Hawaiian(); break;
+            case "Pepperoni": return new Pepperoni();
+            case "Deluxe": return new Deluxe();
+            case "Hawaiian": return new Hawaiian();
         }
 
-        return p;
+        return null;
     }
 
 }

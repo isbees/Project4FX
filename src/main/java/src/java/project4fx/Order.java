@@ -10,15 +10,15 @@ import java.util.ArrayList;
 
 public class Order {
 
-    private ArrayList<Pizza> pizzas;
-    private int phoneNumber;
+    private ArrayList<Pizza> pizzas = new ArrayList<Pizza>();
+    private String phoneNumber;
 
     /**
      * default constructor
      */
     public Order() {
         pizzas = new ArrayList<Pizza>();
-        phoneNumber = 0;
+        phoneNumber = "";
     }
 
     /**
@@ -26,7 +26,7 @@ public class Order {
      *
      * @param phoneNumber the customer's phone number
      */
-    public Order(int phoneNumber) {
+    public Order(String phoneNumber) {
         this.pizzas = new ArrayList<Pizza>();
         this.phoneNumber = phoneNumber;
     }
@@ -38,8 +38,19 @@ public class Order {
      * @param pizzas      the list of pizzas
      * @param phoneNumber the customer's phone number
      */
-    public Order(ArrayList<Pizza> pizzas, int phoneNumber) {
+    public Order(ArrayList<Pizza> pizzas, String phoneNumber) {
         this.pizzas = new ArrayList<Pizza>(pizzas);
+        this.phoneNumber = phoneNumber;
+    }
+
+    /**
+     * Fully parameterized constructor that stores one pizza and phone number
+     *
+     * @param pizza      the list of pizzas
+     * @param phoneNumber the customer's phone number
+     */
+    public Order(Pizza pizza, String phoneNumber) {
+        this.pizzas.add(pizza);
         this.phoneNumber = phoneNumber;
     }
 
@@ -86,7 +97,7 @@ public class Order {
      *
      * @return phoneNumber the person's phone number
      */
-    public int getNumber() {
+    public String getNumber() {
         return phoneNumber;
     }
 
@@ -110,10 +121,10 @@ public class Order {
      * @return output the Pizza type and all the toppings
      */
     public String toString() {
-        String output = "Phone number: " + phoneNumber + "\nFull Order: \n";
 
+        String output = "Phone number: " + phoneNumber + "\nFull Order: \n";
         for (Pizza p : pizzas)
-            output += findType(p) + "\n" + p.toString();
+            output += findType(p) + "\n Toppings: \n" + p.toString();
 
         return output;
     }

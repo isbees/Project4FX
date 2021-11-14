@@ -14,6 +14,7 @@ public class Pepperoni extends Pizza{
      */
     public Pepperoni(){
         super();
+        super.addTopping(Topping.Pepperoni);
     }
 
     /**
