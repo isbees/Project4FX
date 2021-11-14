@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 public class HelloController {
     //Instance variable
     private String pizzaType;
+    private StoreOrders storeorder;
 
     //Assets
     @FXML
@@ -40,6 +41,11 @@ public class HelloController {
     @FXML
     Button storeOrdersBtn;
 
+
+
+    void initialize(){
+        storeorder= new StoreOrders();
+    }
     //Get pizzatype selected
     String getPizzaType() {
         return this.pizzaType;
@@ -134,7 +140,9 @@ public class HelloController {
     }
 
 }
-  /*  Order order = findOrder(custPhoneNumber);
+  /*  Click on a pizza
+
+  Order order = findOrder(custPhoneNumber);
 if(order==null){
         Order newOrder=new Order(custPhoneNumber)
         };
