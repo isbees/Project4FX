@@ -60,9 +60,10 @@ public class Order {
      * @param pizza the pizza that will be added to the customer's order
      */
     public void add(Pizza pizza) {
-        for (Pizza p : pizzas) {
+        if(pizzas.isEmpty()) {
             pizzas.add(pizza);
         }
+        pizzas.add(pizza);
     }
 
     /**

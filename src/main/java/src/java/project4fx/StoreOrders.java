@@ -34,6 +34,9 @@ public class StoreOrders {
      * @return int if not found return -1
      */
     private int find(Order customer){
+        if(orders.isEmpty()) {
+            return -1;
+        }
         for (int i =0; i < orders.size()+1; i++) {
             if (orders.get(i).getNumber().equals(customer.getNumber()))  {
                 return i;
@@ -50,6 +53,10 @@ public class StoreOrders {
     public void add(Order customer) {
         Order a;
         for (int i =0; i < orders.size()+1; i++) {
+            if(orders.isEmpty()) {
+                orders.add(customer);
+                break;
+            }
             if (orders.get(i).getNumber().equals(customer.getNumber()))  {
                 continue;
             }
@@ -63,10 +70,18 @@ public class StoreOrders {
      * @param customer that wants to order
      */
     public void add(Order customer, Pizza pizza) {
-        for (int i =0; i < orders.size(); i++) {
-            if (find(customer) >= 0) { //orders.get(i).getNumber().equals(customer.getNumber()))  {
-                orders.get(i).add(pizza);
-            }
+        int i = find(customer);
+
+        if(orders.isEmpty()) {
+            orders.add(customer);
+            orders.get(0).add(pizza);
+        }
+        if (i > -1) {
+            System.out.println("Adding pizza!");
+            orders.get(i).add(pizza);
+        } else {    // case that the customer was not found and the list is initialized
+            orders.add(customer);
+            orders.get(find(customer)).add(pizza);
         }
     }
 
@@ -98,12 +113,13 @@ public class StoreOrders {
      * @return output the full order information
      */
     public String printOrders() {
-        String output = "123123";
-        System.out.println(orders.size());
-        for (Order o : orders) {
-            output += o.printOrder();
+        String output = "";
+        System.out.println("The Orders: "+ orders.size());
+        for (int i = 0; i < orders.size()-1; i++) {
+            //System.out.println("order: "+ o.printOrder());
+            output += orders.get(i).printOrder();
         }
-        //System.out.println(output);
+        System.out.println(output);
         return output;
     }
 }
