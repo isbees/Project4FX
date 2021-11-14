@@ -1,3 +1,5 @@
+//4th view
+
 package src.java.project4fx;
 
 import javafx.fxml.FXMLLoader;
@@ -14,11 +16,11 @@ public class StoreordersViewController {
     @FXML
     Label custPhoneNumberLabel;
     @FXML
-    TextArea custPhoneNumberTextArea;
+    TextField customerPhoneNumber;
     @FXML
     Label ordertotalLabel;
     @FXML
-    TextArea orderTotalTextArea;
+    TextField orderTotal;
     @FXML
     ListView ordersListView;
     @FXML

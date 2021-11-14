@@ -1,3 +1,5 @@
+//2nd view
+
 package src.java.project4fx;
 
 import javafx.fxml.FXMLLoader;
@@ -10,7 +12,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 public class CustomizationViewController {
-   @FXML
+
+ @FXML
     Button addButton;
    @FXML
     Button removeButton;
@@ -30,5 +33,8 @@ public class CustomizationViewController {
     TextField priceArea;
     @FXML
     Button addToOrderButton;
-
+    private HelloController mainController;
+    public void setMainController(HelloController controller){
+        mainController= controller;
+    }
 }

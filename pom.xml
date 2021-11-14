@@ -60,7 +60,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>src.java.project4fx/src.java.project4fx.HelloApplication</mainClass>
+                            <mainClass>src.java.project4fx/src.java.project4fx.Application</mainClass>
                         </configuration>
                     </execution>
                 </executions>

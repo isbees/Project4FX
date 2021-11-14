@@ -1,3 +1,4 @@
+//3rd view
 package src.java.project4fx;
 
 import javafx.fxml.FXMLLoader;
@@ -32,4 +33,11 @@ public class CurrentOrderViewController {
     TextField subtotalTextField;
     @FXML
     Label pizzaorderLabel;
+    private HelloController mainController;
+    public void setMainController(HelloController controller){
+        mainController= controller;
+    }
+    public void initialize(){
+        System.out.println("HElLOLO");
+    }
 }
