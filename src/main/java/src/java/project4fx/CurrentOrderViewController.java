@@ -40,4 +40,18 @@ public class CurrentOrderViewController {
     public void initialize(){
         System.out.println("HElLOLO");
     }
+    public void onPlaceOrderButtonClick(){
+        //if(things not empty) addToStoreOrders(custphonenum, order);
+        //and below. else (alert wrong info)
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Order has been sent to the store");
+        alert.setHeaderText("Congrats, you've confirmed your order!");
+        alert.setContentText("Prepare yourself for a pizza-licious experience. Nothing left to do but wait for our incredible delivery time!");
+        alert.showAndWait();
+    }
+    public void onRemovePizzaButtonClick(){
+        //if(things not empty) deletePizza(custphone#,pizza);
+        //and below. else (alert wrong info)
+
+    }
 }

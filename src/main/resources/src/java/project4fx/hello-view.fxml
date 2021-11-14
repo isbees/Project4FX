@@ -29,7 +29,7 @@
    </HBox>
    <VBox prefHeight="547.0" prefWidth="355.0">
       <children>
-         <Button fx:id="deluxeBtn" contentDisplay="TOP" mnemonicParsing="false" onAction="#openNewOrder" text="order Deluxe">
+         <Button fx:id="deluxeBtn" contentDisplay="TOP" mnemonicParsing="false" onAction="#openNewDeluxe" text="order Deluxe">
             <VBox.margin>
                <Insets bottom="20.0" />
             </VBox.margin>
@@ -40,7 +40,7 @@
                   </image></ImageView>
             </graphic>
          </Button>
-         <Button fx:id="hawaiianBtn" contentDisplay="TOP" mnemonicParsing="false" onAction="#openNewOrder" text="order Hawaiian">
+         <Button fx:id="hawaiianBtn" contentDisplay="TOP" mnemonicParsing="false" onAction="#openNewHawaiian" text="order Hawaiian">
             <VBox.margin>
                <Insets bottom="20.0" />
             </VBox.margin>
@@ -52,7 +52,7 @@
                </ImageView>
             </graphic>
          </Button>
-         <Button fx:id="pepperoniBtn" contentDisplay="TOP" mnemonicParsing="false" onAction="#openNewOrder" text="order Pepperoni">
+         <Button fx:id="pepperoniBtn" contentDisplay="TOP" mnemonicParsing="false" onAction="#openNewPepperoni" text="order Pepperoni">
             <graphic>
                <ImageView fx:id="pepperoniImgView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                   <image>
