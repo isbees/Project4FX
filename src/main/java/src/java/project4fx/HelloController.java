@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 public class HelloController {
     //Instance variable
     private String pizzaType;
-    private StoreOrders storeorder;
+    private StoreOrders storeOrder;
     private Order currentOrder;
     //Assets
     @FXML
@@ -50,7 +50,7 @@ public class HelloController {
 
 
     public void initialize(){
-        storeorder= new StoreOrders();
+        storeOrder= new StoreOrders();
     }
     //Get pizzatype selected
     String getPizzaType() {
@@ -136,6 +136,7 @@ public class HelloController {
             System.out.println(total);
             stage.setTitle("Current-Orders!");
             stage.setScene(scene);
+            coView.setListViews();
             stage.show();
         }catch (NullPointerException e){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -159,12 +160,18 @@ public class HelloController {
     HelloController getController() {
         return this;
     }
+
     public void setCurrentOrder(Order newOrder){
         currentOrder= newOrder;
 
     }
+
     public Order getCurrentOrder(){
         return this.currentOrder;
+    }
+
+    public void addToStoreOrder(Order order){
+        storeOrder.add(order);
     }
 }
 

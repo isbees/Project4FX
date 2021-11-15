@@ -1,6 +1,7 @@
 //3rd view
 package src.java.project4fx;
 
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -44,7 +45,7 @@ public class CurrentOrderViewController {
     @FXML
     Label pizzaorderLabel;
     @FXML
-    ListView orderList;
+    ListView orderPizzas = new ListView();
 
     public void setCustPhoneNumber(String number) {
         custPhoneNumber.setText(number);
@@ -68,27 +69,63 @@ public class CurrentOrderViewController {
 
     public void setListViews() {
         Order currentOrderInSystem = mainController.getCurrentOrder();
-        ArrayList<String> listOfOrders = new ArrayList<String>();
+        String[] listOfOrders = new String[currentOrderInSystem.getTotalPizzas()];
         ObservableList<String> orders;
         for (int i = 0; i < currentOrderInSystem.getTotalPizzas(); i++) {
-            listOfOrders.add(currentOrderInSystem.toString(i));
-            System.out.println(currentOrderInSystem.toString(i));
+            listOfOrders[i] = currentOrderInSystem.toString(i);
+            System.out.println(listOfOrders[i]);
         }
-            orders = FXCollections.observableArrayList(listOfOrders);
-        orderList.setItems((ObservableList) listOfOrders);
+        orders = FXCollections.observableArrayList(listOfOrders);
+        //System.out.println("Here "+ orders);
+       // int index = 0;
+        /*orderPizzas.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
+            String selectedItem = (String) orderPizzas.getSelectionModel().getSelectedItem();
+            int index = orderPizzas.getSelectionModel().getSelectedIndex();
+
+            System.out.println("Item selected : " + selectedItem + ", Item index : " + index);
+        });*/
+        ObservableList selectedIndices = orderPizzas.getSelectionModel().getSelectedIndices();
+
+        orderPizzas.setItems(orders);
     }
 
+    /**
+     * Will place the order in the StoreOrder in the Main controller
+     */
     public void onPlaceOrderButtonClick() {
         //if(things not empty) addToStoreOrders(custphonenum, order);
-        //and below. else (alert wrong info)
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Order has been sent to the store");
-        alert.setHeaderText("Congrats, you've confirmed your order!");
-        alert.setContentText("Prepare yourself for a pizza-licious experience. Nothing left to do but wait for our incredible delivery time!");
-        alert.showAndWait();
+        if(orderPizzas == null){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Order cannot be completed");
+            alert.setHeaderText("You must have a pizza in the list!");
+        } else {
+            mainController.addToStoreOrder(mainController.getCurrentOrder());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Order has been sent to the store");
+            alert.setHeaderText("Congrats, you've confirmed your order!");
+            alert.setContentText("Prepare yourself for a pizza-licious experience. Nothing left to do but wait for our incredible delivery time!");
+            alert.showAndWait();
+        }
     }
 
+    /**
+     * Will remove a pizza that is selected in the list of pizzas
+     */
     public void onRemovePizzaButtonClick() {
+        int index = orderPizzas.getSelectionModel().getSelectedIndex(); // will get the index of the item selected
+
+        if(index == -1) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("There is no selection made");
+            alert.setHeaderText("Either add a pizza or select a row.");
+            alert.showAndWait();
+        } else {
+            Order o = mainController.getCurrentOrder();
+            o.remove(index);
+            mainController.setCurrentOrder(o);
+            setListViews();
+        }
+
 
         //if(things not empty) deletePizza(custphone#,pizza);
         //and below. else (alert wrong info)

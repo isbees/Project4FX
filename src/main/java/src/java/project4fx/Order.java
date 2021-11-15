@@ -81,6 +81,15 @@ public class Order {
     }
 
     /**
+     * removes one pizza from the list even if it occurs more than once
+     *
+     * @param pizza that wants to cancel the order
+     */
+    public void remove(int index) {
+        pizzas.remove(index);
+    }
+
+    /**
      * adds the price of every pizza into the total
      */
     public double calcSubTotal() {
