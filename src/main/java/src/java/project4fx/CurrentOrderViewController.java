@@ -37,9 +37,6 @@ public class CurrentOrderViewController {
     public void setMainController(HelloController controller){
         mainController= controller;
     }
-    public void initialize(){
-        System.out.println("HElLOLO");
-    }
     public void onPlaceOrderButtonClick(){
         //if(things not empty) addToStoreOrders(custphonenum, order);
         //and below. else (alert wrong info)

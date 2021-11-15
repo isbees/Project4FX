@@ -9,6 +9,7 @@ import javafx.scene.image.*;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,6 +19,7 @@ public class HelloController {
     //Instance variable
     private String pizzaType;
     private StoreOrders storeorder;
+    private ArrayList<Order> currentOrder;
 
     //Assets
     @FXML
@@ -43,7 +45,7 @@ public class HelloController {
 
 
 
-    void initialize(){
+    public void initialize(){
         storeorder= new StoreOrders();
     }
     //Get pizzatype selected
@@ -57,89 +59,85 @@ public class HelloController {
     @FXML
     void openNewHawaiian() throws IOException {
         pizzaType = "Hawaiian";
-        openNewOrder();
+        checkOpenNewCustomization();
     }
 
     @FXML
     void openNewPepperoni() throws IOException {
         pizzaType = "Pepperoni";
-        openNewOrder();
+        checkOpenNewCustomization();
     }
 
     @FXML
     void openNewDeluxe() throws IOException {
         pizzaType = "Deluxe";
-        openNewOrder();
+        checkOpenNewCustomization();
     }
 
-    public void openNewOrder() throws IOException {
+    public void checkOpenNewCustomization() throws IOException {
+        String phoneNumText = custPhoneNumber.getText();
         try {
-            String phoneNumText = custPhoneNumber.getText();
             if (phoneNumText.length() != 10) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Phone number should be 10 digits long");
+                alert.setTitle("Phone number must be 10 digits long.");
                 alert.showAndWait();
                 return;
             }
-            int phoneNum = Integer.valueOf(phoneNumText);
+            int a = Integer.valueOf(phoneNumText);
             //add it to our next order!! ->>>> maybe add it as instance var?
 
         } catch (NumberFormatException e) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Make sure your phone number is only numbers");
+            alert.setTitle("Phone number must be only numbers.");
             alert.showAndWait();
             return;
         }
-        open("customization-view.fxml");
+        openCustomization(phoneNumText);
     }
-
-    //Goes to 3rd view
-    public void openCurrentOrder() throws IOException {
-        open("currentorder-view.fxml");
-    }
-
-    //Goes to 4th view
-    public void openStoreOrders() throws IOException {
-        open("storeorders-view.fxml");
-    }
-
-    /**
-     * open(String nameOfFile) takes the fxml file and loads it with the
-     * correct stage-title
-     *
-     * @param nameOfFile as a string of the fxml file
-     */
-    public void open(String nameOfFile) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource(nameOfFile));
+    void openCustomization(String phoneNumber) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("customization-view.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(fxmlLoader.load(), 600, 700);
-        if (nameOfFile.equals("currentorder-view.fxml")) {
-            stage.setTitle("Current-Orders!");
-
-        } else if (nameOfFile.equals("customization-view.fxml")) {
-            CustomizationViewController cView = fxmlLoader.getController();
-            cView.setMainController(this);
-            stage.setTitle("Customizing-Your-Pizza-Order!");
-            stage.setScene(scene);
-            cView.setPhoto();
-            stage.show();
-            return;
-        } else if (nameOfFile.equals("storeorders-view.fxml")) {
-            stage.setTitle("Your-Store-Orders!");
-
-        }
-        else {
-            return;
-        }
+        CustomizationViewController cView = fxmlLoader.getController();
+        cView.setMainController(this);
+        cView.setPhoneNumber(phoneNumber);
+        stage.setTitle("Customizing-Your-Pizza-Order!");
+        stage.setScene(scene);
+        cView.setPhotoListViewsComboBoxPrice();
+        stage.show();
+    }
+    //Goes to 3rd view
+    public void openCurrentOrder() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("currentorder-view.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(fxmlLoader.load(), 600, 700);
+        stage.setTitle("Current-Orders!");
         stage.setScene(scene);
         stage.show();
     }
 
+    //Goes to 4th view
+    public void openStoreOrders() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("storeorders-view.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(fxmlLoader.load(), 600, 700);
+        stage.setTitle("Your-Store-Orders!");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
     HelloController getController() {
         return this;
     }
-
+    public void setCurrentOrder(CustomizationViewController cView, ArrayList<Order> currentOrder){
+        currentOrder= cView.getCurrentOrder();
+    }
+    public ArrayList<Order> getCurrentOrder(){
+        return this.currentOrder;
+    }
 }
+
   /*  Click on a pizza
 
   Order order = findOrder(custPhoneNumber);
