@@ -16,6 +16,9 @@ import javafx.scene.control.*;
 import javafx.scene.image.*;
 
 public class StoreordersViewController {
+
+    private HelloController mainController;
+
     @FXML
     Label custPhoneNumberLabel;
     @FXML
@@ -25,12 +28,27 @@ public class StoreordersViewController {
     @FXML
     TextField orderTotal;
     @FXML
+    TextField custPhoneNumber;
+    @FXML
     ListView ordersListView;
     @FXML
     Button cancelOrderButton;
     @FXML
     Button exportStoreOrdersButton;
     @FXML
+
+    public void setMainController(HelloController controller) {
+        mainController = controller;
+    }
+
+    public void setCustPhoneNumber(String number) {
+        custPhoneNumber.setText(number);
+    }
+
+    public void setOrderTotal(double total) {
+        orderTotal.setText(String.format("%1.2f", total));
+    }
+
     void onCancelOrderButtonClick(){
         //if(things not empty) storeOrders.cancelOrder(order);
         //and below. else (alert wrong info)

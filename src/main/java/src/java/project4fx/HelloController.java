@@ -130,13 +130,12 @@ public class HelloController {
 
             coView.setCustPhoneNumber(currentOrder.getNumber());
             coView.setSubtotal(subTotal);
-            System.out.println(subTotal);
             coView.setOrderTotal(total);
             coView.setTax(tax);
-            System.out.println(total);
+            coView.setListViews();
+
             stage.setTitle("Current-Orders!");
             stage.setScene(scene);
-            coView.setListViews();
             stage.show();
         }catch (NullPointerException e){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -151,6 +150,13 @@ public class HelloController {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("storeorders-view.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(fxmlLoader.load(), 600, 700);
+        StoreordersViewController soView = fxmlLoader.getController();
+
+        soView.setMainController(this);
+        soView.setCustPhoneNumber(currentOrder.getNumber());
+        soView.setOrderTotal(currentOrder.calcSubTotal() + currentOrder.calcTax());
+        //soView.setListViews();
+
         stage.setTitle("Your-Store-Orders!");
         stage.setScene(scene);
         stage.show();

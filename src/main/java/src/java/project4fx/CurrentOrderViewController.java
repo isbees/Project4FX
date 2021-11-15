@@ -76,15 +76,7 @@ public class CurrentOrderViewController {
             System.out.println(listOfOrders[i]);
         }
         orders = FXCollections.observableArrayList(listOfOrders);
-        //System.out.println("Here "+ orders);
-       // int index = 0;
-        /*orderPizzas.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
-            String selectedItem = (String) orderPizzas.getSelectionModel().getSelectedItem();
-            int index = orderPizzas.getSelectionModel().getSelectedIndex();
 
-            System.out.println("Item selected : " + selectedItem + ", Item index : " + index);
-        });*/
-        ObservableList selectedIndices = orderPizzas.getSelectionModel().getSelectedIndices();
 
         orderPizzas.setItems(orders);
     }
