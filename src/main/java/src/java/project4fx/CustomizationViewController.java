@@ -41,12 +41,11 @@ public class CustomizationViewController {
     Button addToOrderButton;
 
     private HelloController mainController;
-    private ArrayList<Order> currentOrder;
     private String phoneNumber;
-    private StoreOrders storeorder;
     private int maxToppings;
     private int numToppings;
     private int price;
+    private Order currentOrder;
     @FXML
     public void setListViews(String pizzaType) {
         ObservableList<String> selectedToppingOptions;
@@ -87,7 +86,7 @@ public class CustomizationViewController {
         mainController = controller;
     }
     void setPrice(){
-        //call to set price
+        //call to set price -> based on selected pizza, and small initially.
     }
     public void setPhoneNumber(String number) {
         phoneNumber = number;
@@ -140,38 +139,52 @@ public class CustomizationViewController {
     @FXML
     public void onAddToOrderButtonClick() {
         //Get our existing current orders from main page
-        ArrayList<Order> currentOrdersInSystem = mainController.getCurrentOrder();
-
-        //If we have no orders, make a new arraylist for our main
-        if(currentOrder==null){
-            currentOrder = new ArrayList<Order>();
-            Order newOrder = new Order(phoneNumber,pizzafromThis);
-            currentOrder.add(newOrder);
-            mainController.setCurrentOrder(this,currentOrder);
+        Order currentOrderInSystem = mainController.getCurrentOrder();
+        Pizza p = PizzaMaker.createPizza(pizzaTypeLabel.getText());
+        ArrayList<Topping> pizzaToppings = new ArrayList<Topping>();
+        pizzaToppings = convertToEnums(selectedToppings.getItems());
+        p.addToppings(pizzaToppings);
+        //If we have no orders, make a new order
+        if(currentOrderInSystem==null){
+            Order newOrder = new Order(p,phoneNumber);
+            mainController.setCurrentOrder(newOrder);
+            this.currentOrder=newOrder;
         }
-        //If we have another order in shopping cart, check if same number
-        //if not, trash that one, and start a new one.
+        //We have an order for this person
         else{
-            //Go through each order to see if any has our number, and add to that order.
-            for(int i = 0; i<currentOrdersInSystem.size(); i++){
-                //if we've already got an order from this guy
-                if(currentOrdersInSystem.get(i).getNumber().equals(phoneNumber)){
-                    currentOrdersInSystem.get(i).add(pizzafromThis);
-                }
-                //It's a new thing!
-                else{
-                    Order newOrder = new Order(phoneNumber, pizzafromThis);
-                    currentOrdersInSystem.add(newOrder);
-                }
-            }
+            currentOrder=currentOrderInSystem;
+            currentOrder.add(p);
+            mainController.setCurrentOrder(currentOrder);
         }
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Pizza added to order");
         alert.setHeaderText("Congrats, you've added a pizza to your order!");
-        alert.setContentText("Lets confirm this pizza-licious experience.");
+        alert.setContentText(mainController.getCurrentOrder().toString());
         alert.showAndWait();
     }
-    public ArrayList<Order> getCurrentOrder(){
+    public Order getCurrentOrder(){
         return this.currentOrder;
     }
+    public ArrayList<Topping> convertToEnums(ObservableList<String> selectedItems){
+        String a;
+        ArrayList<Topping> toppings = new ArrayList<Topping>();
+        for(int i = 0; i<selectedItems.size(); i++){
+            a = selectedItems.get(i);
+            Topping newTopping = Topping.Pepperoni;
+            switch (a){
+                case "Pepperoni": newTopping= Topping.Pepperoni; break;
+                case "Mushroom":  newTopping= Topping.Mushroom; break;
+                case "Pineapple":  newTopping= Topping.Pineapple; break;
+                case "Mozzarella":  newTopping= Topping.Mozzarella; break;
+                case "Olives":  newTopping= Topping.Olives; break;
+                case "Spinach":  newTopping= Topping.Spinach; break;
+                case "Ham":  newTopping= Topping.Ham; break;
+            }
+            toppings.add(newTopping);
+        }
+        return toppings;
+    }
 }
+
+
+

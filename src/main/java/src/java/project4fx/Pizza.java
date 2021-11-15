@@ -113,4 +113,7 @@ public abstract class Pizza {
 
         return output;
     }
+    void addToppings(ArrayList<Topping> newToppings){
+        toppings= newToppings;
+    }
 }

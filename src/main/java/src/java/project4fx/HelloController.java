@@ -19,8 +19,7 @@ public class HelloController {
     //Instance variable
     private String pizzaType;
     private StoreOrders storeorder;
-    private ArrayList<Order> currentOrder;
-
+    private Order currentOrder;
     //Assets
     @FXML
     Label labelZachIsaacPizzeria;
@@ -55,7 +54,6 @@ public class HelloController {
     //Navigation
 
     //Goes to 2nd view
-
     @FXML
     void openNewHawaiian() throws IOException {
         pizzaType = "Hawaiian";
@@ -92,7 +90,15 @@ public class HelloController {
             alert.showAndWait();
             return;
         }
-        openCustomization(phoneNumText);
+        if(currentOrder==null||phoneNumText.equals(currentOrder.getNumber())){
+            openCustomization(phoneNumText);
+        }
+        else{
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("You have an existing order with diff #.");
+            alert.showAndWait();
+            return;
+        }
     }
     void openCustomization(String phoneNumber) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("customization-view.fxml"));
@@ -111,6 +117,9 @@ public class HelloController {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("currentorder-view.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(fxmlLoader.load(), 600, 700);
+        CurrentOrderViewController coView = fxmlLoader.getController();
+        coView.setMainController(this);
+        coView.setCustPhoneNumber(currentOrder.getNumber());
         stage.setTitle("Current-Orders!");
         stage.setScene(scene);
         stage.show();
@@ -130,10 +139,11 @@ public class HelloController {
     HelloController getController() {
         return this;
     }
-    public void setCurrentOrder(CustomizationViewController cView, ArrayList<Order> currentOrder){
-        currentOrder= cView.getCurrentOrder();
+    public void setCurrentOrder(Order newOrder){
+        currentOrder= newOrder;
+
     }
-    public ArrayList<Order> getCurrentOrder(){
+    public Order getCurrentOrder(){
         return this.currentOrder;
     }
 }

@@ -34,6 +34,9 @@ public class CurrentOrderViewController {
     @FXML
     Label pizzaorderLabel;
     private HelloController mainController;
+    public void setCustPhoneNumber(String number){
+        custPhoneNumber.setText(number);
+    }
     public void setMainController(HelloController controller){
         mainController= controller;
     }
