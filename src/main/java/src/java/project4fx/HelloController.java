@@ -105,7 +105,7 @@ public class HelloController {
             return;
         }
     }
-    void openCustomization(String phoneNumber) throws IOException {
+     void openCustomization(String phoneNumber) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("customization-view.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(fxmlLoader.load(), 600, 700);
@@ -175,7 +175,6 @@ public class HelloController {
 
     public void setCurrentOrder(Order newOrder){
         currentOrder= newOrder;
-
     }
 
     public Order getCurrentOrder(){

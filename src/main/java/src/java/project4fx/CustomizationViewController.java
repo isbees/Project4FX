@@ -127,7 +127,6 @@ public class CustomizationViewController {
         }
         newPizza.size = enumSize;
         changePrice();
-        System.out.println("Size after clicking is: "+newPizza.size);
     }
     @FXML
     void onAddButtonClick(){
@@ -153,11 +152,10 @@ public class CustomizationViewController {
         additionalToppings.getItems().add(selectedToppings.getSelectionModel().getSelectedItem());
         selectedToppings.getItems().remove(selectedToppings.getSelectionModel().getSelectedItem());
         changePrice();
-        System.out.println("OUR PIZZA IS: "+newPizza.toString());
         //call to price change for topping amount change- can use maxToppings and numToppings
     }
     @FXML
-    public void onAddToOrderButtonClick() {
+    public void onAddToOrderButtonClick() throws IOException {
         //Get our existing current orders from main page
         Order currentOrderInSystem = mainController.getCurrentOrder();
 
@@ -178,10 +176,6 @@ public class CustomizationViewController {
         alert.setHeaderText("Congrats, you've added a pizza to your order!");
         alert.setContentText(mainController.getCurrentOrder().toString());
         alert.showAndWait();
-        System.out.println("Size at add = "+newPizza.size);
-        for(int i = 0; i<currentOrder.getTotalPizzas(); i++){
-            System.out.println("Pizza: Size = "+currentOrder.getPizza(i).size+"with: "+currentOrder.getPizza(i).toString());
-        }
     }
 
     public Order getCurrentOrder(){
