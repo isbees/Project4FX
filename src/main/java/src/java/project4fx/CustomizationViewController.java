@@ -43,9 +43,6 @@ public class CustomizationViewController {
 
     private HelloController mainController;
     private String phoneNumber;
-    private int maxToppings;
-    private int numToppings;
-    private int price;
     private Order currentOrder;
     private Pizza newPizza;
     @FXML
@@ -56,14 +53,12 @@ public class CustomizationViewController {
             selectedToppingOptions =
                     FXCollections.observableArrayList("Pepperoni",
                             "Mushroom","Spinach","Mozzarella","Olives");
-            maxToppings=5;
             additionalToppingOptions =
                     FXCollections.observableArrayList("Pineapple", "Ham");
         }
         else if(pizzaType.equals("Hawaiian")){
             selectedToppingOptions =
                     FXCollections.observableArrayList("Pineapple","Ham");
-           maxToppings=2;
 
            additionalToppingOptions = FXCollections.observableArrayList(
                     "Olives", "Mozzarella","Mushroom","Spinach","Pepperoni");
@@ -71,7 +66,6 @@ public class CustomizationViewController {
         else {
             selectedToppingOptions =
                     FXCollections.observableArrayList("Pepperoni");
-           maxToppings=1;
 
             additionalToppingOptions = FXCollections.observableArrayList(
                             "Olives", "Ham","Mushroom","Spinach", "Pineapple","Mozzarella");
@@ -133,6 +127,7 @@ public class CustomizationViewController {
         }
         newPizza.size = enumSize;
         changePrice();
+        System.out.println("Size after clicking is: "+newPizza.size);
     }
     @FXML
     void onAddButtonClick(){
@@ -144,7 +139,6 @@ public class CustomizationViewController {
         newPizza.addTopping(addedTopping);
         selectedToppings.getItems().add(additionalToppings.getSelectionModel().getSelectedItem());
         additionalToppings.getItems().remove(additionalToppings.getSelectionModel().getSelectedItem());
-        numToppings++;
         changePrice();
         //call to price change for topping amount change- can use maxToppings and numToppings
     }
@@ -158,7 +152,6 @@ public class CustomizationViewController {
         newPizza.removeTopping(removedTopping);
         additionalToppings.getItems().add(selectedToppings.getSelectionModel().getSelectedItem());
         selectedToppings.getItems().remove(selectedToppings.getSelectionModel().getSelectedItem());
-        numToppings--;
         changePrice();
         System.out.println("OUR PIZZA IS: "+newPizza.toString());
         //call to price change for topping amount change- can use maxToppings and numToppings
@@ -167,20 +160,17 @@ public class CustomizationViewController {
     public void onAddToOrderButtonClick() {
         //Get our existing current orders from main page
         Order currentOrderInSystem = mainController.getCurrentOrder();
-        Pizza p = PizzaMaker.createPizza(pizzaTypeLabel.getText());
-        ArrayList<Topping> pizzaToppings = new ArrayList<Topping>();
-        pizzaToppings = convertAllToppingsToEnums(selectedToppings.getItems());
-        p.addToppings(pizzaToppings);
+
         //If we have no orders, make a new order
         if(currentOrderInSystem==null){
-            Order newOrder = new Order(p,phoneNumber);
+            Order newOrder = new Order(newPizza,phoneNumber);
             mainController.setCurrentOrder(newOrder);
             this.currentOrder=newOrder;
         }
         //We have an order for this person
         else{
             currentOrder=currentOrderInSystem;
-            currentOrder.add(p);
+            currentOrder.add(newPizza);
             mainController.setCurrentOrder(currentOrder);
         }
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -188,6 +178,10 @@ public class CustomizationViewController {
         alert.setHeaderText("Congrats, you've added a pizza to your order!");
         alert.setContentText(mainController.getCurrentOrder().toString());
         alert.showAndWait();
+        System.out.println("Size at add = "+newPizza.size);
+        for(int i = 0; i<currentOrder.getTotalPizzas(); i++){
+            System.out.println("Pizza: Size = "+currentOrder.getPizza(i).size+"with: "+currentOrder.getPizza(i).toString());
+        }
     }
 
     public Order getCurrentOrder(){

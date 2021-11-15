@@ -100,7 +100,7 @@ public class HelloController {
         }
         else{
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("You have an existing order with diff #.");
+            alert.setTitle("You have an existing order with diff #:"+phoneNumText);
             alert.showAndWait();
             return;
         }
@@ -119,6 +119,10 @@ public class HelloController {
     }
     //Goes to 3rd view
     public void openCurrentOrder() throws IOException {
+        for(int i = 0; i<currentOrder.getTotalPizzas(); i++){
+            System.out.println("Pizza: Size = "+currentOrder.getPizza(i).size+"with: "+currentOrder.getPizza(i).toString());
+        }
+        /*
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("currentorder-view.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(fxmlLoader.load(), 600, 700);
@@ -143,6 +147,8 @@ public class HelloController {
             alert.showAndWait();
             return;
         }
+
+         */
     }
 
     //Goes to 4th view

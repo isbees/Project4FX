@@ -182,4 +182,7 @@ public class Order {
         }
         return s;
     }
+    public Pizza getPizza(int i){
+        return pizzas.get(i);
+    }
 }
