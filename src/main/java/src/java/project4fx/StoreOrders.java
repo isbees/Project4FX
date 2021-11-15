@@ -72,16 +72,20 @@ public class StoreOrders {
     public void add(Order customer, Pizza pizza) {
         int i = find(customer);
 
+        System.out.println(i);
+
         if(orders.isEmpty()) {
             orders.add(customer);
-            orders.get(0).add(pizza);
-        }
-        if (i > -1) {
-            System.out.println("Adding pizza!");
-            orders.get(i).add(pizza);
-        } else {    // case that the customer was not found and the list is initialized
-            orders.add(customer);
-            orders.get(find(customer)).add(pizza);
+            System.out.println("Adding pizza! Empty");
+        }else {
+            if (i > -1) {
+                System.out.println("Adding pizza! -1");
+                orders.get(i).add(pizza);
+            } else {    // case that the customer was not found and the list is initialized
+                System.out.println("Adding pizza!");
+                orders.add(customer);
+                orders.get(find(customer)).add(pizza);
+            }
         }
     }
 
@@ -115,11 +119,12 @@ public class StoreOrders {
     public String printOrders() {
         String output = "";
         System.out.println("The Orders: "+ orders.size());
+
         for (int i = 0; i < orders.size()-1; i++) {
             //System.out.println("order: "+ o.printOrder());
             output += orders.get(i).printOrder();
         }
-        System.out.println(output);
+        System.out.println("Orders: \n"+orders.get(0).printOrder());
         return output;
     }
 }

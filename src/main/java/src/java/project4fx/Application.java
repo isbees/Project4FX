@@ -30,12 +30,14 @@ public class Application extends javafx.application.Application {
 
         Order me = new Order(p1,num);
         System.out.println(me.printOrder());
-        //me = new Order(p2,num);
+        /*me = new Order(p2,num);
         System.out.println(me.printOrder());
-        //me = new Order(p3,num);
+        me = new Order(p3,num);
         System.out.println(me.printOrder());
-
+        */
         so.add(me,p1);
+        so.add(me,p2);
+        so.add(me,p3);
 
         System.out.println("\n\nhere");
         so.printOrders();
