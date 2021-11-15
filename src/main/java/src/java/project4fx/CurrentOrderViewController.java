@@ -76,8 +76,6 @@ public class CurrentOrderViewController {
             System.out.println(listOfOrders[i]);
         }
         orders = FXCollections.observableArrayList(listOfOrders);
-
-
         orderPizzas.setItems(orders);
     }
 

@@ -44,7 +44,6 @@ public abstract class Pizza {
     public void addTopping(Topping topping) {
         //System.out.println("Adding a topping " + topping);
         Topping t;
-
         for (int i = 0; i < toppings.size()+1; i++) {
             if(toppings.isEmpty()) {
                 toppings.add(topping);
@@ -71,7 +70,9 @@ public abstract class Pizza {
             }
         }
     }
-
+    public void clearToppings(){
+        this.toppings = null;
+    }
     /**
      * Checks if a pizza is passed and whether it's toppings and size is the same
      *

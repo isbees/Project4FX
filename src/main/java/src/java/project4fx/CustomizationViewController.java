@@ -45,47 +45,63 @@ public class CustomizationViewController {
     private String phoneNumber;
     private Order currentOrder;
     private Pizza newPizza;
+    private Order tempOrder;
+    private boolean multipleOrders;
+    private int numOrders;
+    private ArrayList<Pizza> myPizzas = new ArrayList<Pizza>();
+    private Pizza multPizza;
+    private int i =0;
+
     @FXML
     public void setListViews(String pizzaType) {
+        System.out.println("in setlistvidws");
+
         ObservableList<String> selectedToppingOptions;
         ObservableList<String> additionalToppingOptions;
-       if (pizzaType.equals("Deluxe")) {
+        if (pizzaType.equals("Deluxe")) {
             selectedToppingOptions =
                     FXCollections.observableArrayList("Pepperoni",
-                            "Mushroom","Spinach","Mozzarella","Olives");
+                            "Mushroom", "Spinach", "Mozzarella", "Olives");
             additionalToppingOptions =
                     FXCollections.observableArrayList("Pineapple", "Ham");
-        }
-        else if(pizzaType.equals("Hawaiian")){
+        } else if (pizzaType.equals("Hawaiian")) {
             selectedToppingOptions =
-                    FXCollections.observableArrayList("Pineapple","Ham");
+                    FXCollections.observableArrayList("Pineapple", "Ham");
 
-           additionalToppingOptions = FXCollections.observableArrayList(
-                    "Olives", "Mozzarella","Mushroom","Spinach","Pepperoni");
-        }
-        else {
+            additionalToppingOptions = FXCollections.observableArrayList(
+                    "Olives", "Mozzarella", "Mushroom", "Spinach", "Pepperoni");
+        } else {
             selectedToppingOptions =
                     FXCollections.observableArrayList("Pepperoni");
 
             additionalToppingOptions = FXCollections.observableArrayList(
-                            "Olives", "Ham","Mushroom","Spinach", "Pineapple","Mozzarella");
+                    "Olives", "Ham", "Mushroom", "Spinach", "Pineapple", "Mozzarella");
         }
         selectedToppings.setItems(selectedToppingOptions);
         additionalToppings.setItems(additionalToppingOptions);
     }
 
-    void setComboBox(){
-        ObservableList<String> items = FXCollections.observableArrayList("Small","Medium","Large");
+    void setComboBox() {
+        System.out.println("in setcombobox");
+        ObservableList<String> items = FXCollections.observableArrayList("Small", "Medium", "Large");
         comboBoxSizes.setItems(items);
         comboBoxSizes.setValue("Small");
     }
-    void changePrice(){
+
+    void changePrice() {
+        System.out.println("in changeprice");
         //Sets up price
-        Double price = newPizza.price();
+        Double price = 0.0;
+        if (multipleOrders == false) {
+            price = newPizza.price();
+        } else {
+            price = multPizza.price();
+        }
         DecimalFormat f = new DecimalFormat("##.00");
         String priceToSet = f.format(price);
         priceArea.setText(priceToSet);
     }
+
     @FXML
     public void setMainController(HelloController controller) {
         mainController = controller;
@@ -94,8 +110,10 @@ public class CustomizationViewController {
     public void setPhoneNumber(String number) {
         phoneNumber = number;
     }
+
     @FXML
     public void setPhotoListViewsComboBoxPrice() {
+        System.out.println("in setphoto");
         String pizzaType = mainController.getPizzaType();
         pizzaTypeLabel.setText(pizzaType);
         Image img;
@@ -113,97 +131,222 @@ public class CustomizationViewController {
         setComboBox();
         pizzaTypePhoto.setImage(img);
         newPizza = PizzaMaker.createPizza(mainController.getPizzaType());
+        multPizza = PizzaMaker.createPizza(mainController.getPizzaType());
         changePrice();
+        int numOrders=0;
     }
+
     @FXML
     void onComboBoxSizesClick() {
+        System.out.println("in changecombo");
         String size = String.valueOf(comboBoxSizes.getSelectionModel().getSelectedItem());
-        Size enumSize = Size.Small;
-        if(size.equals("Medium")){
-            enumSize=Size.Medium;
+        if (multipleOrders == false) {
+            newPizza.size = sizeToEnum(size);
+        } else {
+            multPizza.size = sizeToEnum(size);
         }
-        else if(size.equals("Large")){
-            enumSize=Size.Large;
-        }
-        newPizza.size = enumSize;
         changePrice();
+
     }
+
     @FXML
-    void onAddButtonClick(){
-        if(null==additionalToppings.getSelectionModel().getSelectedItem()){
+    void onAddButtonClick() {
+        System.out.println("in add");
+        if (null == additionalToppings.getSelectionModel().getSelectedItem()) {
             return;
         }
         String newTopping = (String) additionalToppings.getSelectionModel().getSelectedItem();
         Topping addedTopping = convertToppingToEnum(newTopping);
-        newPizza.addTopping(addedTopping);
+        if (multipleOrders == false) {
+            newPizza.addTopping(addedTopping);
+        } else {
+            multPizza.addTopping(addedTopping);
+        }
+        changePrice();
         selectedToppings.getItems().add(additionalToppings.getSelectionModel().getSelectedItem());
         additionalToppings.getItems().remove(additionalToppings.getSelectionModel().getSelectedItem());
-        changePrice();
         //call to price change for topping amount change- can use maxToppings and numToppings
     }
+
     @FXML
-    void onRemoveButtonClick(){
-        if(null==selectedToppings.getSelectionModel().getSelectedItem()){
+    void onRemoveButtonClick() {
+        System.out.println("in remove");
+        if (null == selectedToppings.getSelectionModel().getSelectedItem()) {
+            return;
+        }
+        if (selectedToppings.getItems().size() == 1) {
             return;
         }
         String newTopping = (String) selectedToppings.getSelectionModel().getSelectedItem();
         Topping removedTopping = convertToppingToEnum(newTopping);
-        newPizza.removeTopping(removedTopping);
+        if (multipleOrders == false) {
+            newPizza.removeTopping(removedTopping);
+        } else {
+            multPizza.removeTopping(removedTopping);
+        }
+        changePrice();
         additionalToppings.getItems().add(selectedToppings.getSelectionModel().getSelectedItem());
         selectedToppings.getItems().remove(selectedToppings.getSelectionModel().getSelectedItem());
-        changePrice();
-        //call to price change for topping amount change- can use maxToppings and numToppings
+    }
+
+    @FXML
+    void firstOrder() {
+        //Completely new order
+        if(mainController.getCurrentOrder()==null){
+            myPizzas.add(newPizza);
+            Order newOrder = new Order(myPizzas,phoneNumber);
+            currentOrder = newOrder;
+            mainController.setCurrentOrder(newOrder);
+            setListViews(pizzaTypeLabel.getText());
+            changePrice();
+            setComboBox();
+            multipleOrders=true;
+            numOrders++;
+            System.out.println("First ever order: "+currentOrder.toString());
+            doAlert();
+            return;
+        }
+        //New popup pizza but not completely new order
+        if(numOrders==0){
+            Order current = mainController.getCurrentOrder();
+            current.add(newPizza);
+            setListViews(pizzaTypeLabel.getText());
+            changePrice();
+            setComboBox();
+            multipleOrders=true;
+            numOrders++;
+            currentOrder = current;
+            mainController.setCurrentOrder(currentOrder);
+            System.out.println("First popup order: "+currentOrder.toString());
+            doAlert();
+        }
     }
     @FXML
-    public void onAddToOrderButtonClick() throws IOException {
-        //Get our existing current orders from main page
-        Order currentOrderInSystem = mainController.getCurrentOrder();
+    void evenOrder(){
+        System.out.println("even order: myPizzas = "+myPizzas.toString());
+        //Add our pizza
+        Pizza a = PizzaMaker.createPizza(pizzaTypeLabel.getText());
+        String sized = (String) comboBoxSizes.getSelectionModel().getSelectedItem();
+        a.size = sizeToEnum(sized);
+        a.toppings = convertAllToppingsToEnums(selectedToppings);
+        myPizzas.add(a);
 
-        //If we have no orders, make a new order
-        if(currentOrderInSystem==null){
-            Order newOrder = new Order(newPizza,phoneNumber);
-            mainController.setCurrentOrder(newOrder);
-            this.currentOrder=newOrder;
-        }
-        //We have an order for this person
-        else{
-            currentOrder=currentOrderInSystem;
-            currentOrder.add(newPizza);
-            mainController.setCurrentOrder(currentOrder);
-        }
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Order newOrder = new Order(myPizzas, phoneNumber);
+        currentOrder = newOrder;
+        mainController.setCurrentOrder(currentOrder);
+        setListViews(pizzaTypeLabel.getText());
+        changePrice();
+        multipleOrders = true;
+        numOrders++;
+        doAlert();
+        System.out.println("EVENORDER with "+numOrders+" orders so far. Here we go: "+currentOrder.toString());
+
+    }
+    @FXML
+    void oddOrder() {
+        System.out.println("odd order: myPizzas = "+myPizzas.toString());
+        Pizza a = PizzaMaker.createPizza(pizzaTypeLabel.getText());
+        String sized = (String) comboBoxSizes.getSelectionModel().getSelectedItem();
+        a.size = sizeToEnum(sized);
+        a.toppings = convertAllToppingsToEnums(selectedToppings);
+        myPizzas.add(a);
+        Order newOrder = new Order(myPizzas, phoneNumber);
+        currentOrder = newOrder;
+        setListViews(pizzaTypeLabel.getText());
+        changePrice();
+        doAlert();
+        multipleOrders=false;
+        numOrders++;
+        System.out.println("ODDORDERRRRRRR with "+numOrders+" orders so far. Here we go: "+currentOrder.toString());
+    }
+
+    void doAlert() {
+      /*  Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Pizza added to order");
         alert.setHeaderText("Congrats, you've added a pizza to your order!");
         alert.setContentText(mainController.getCurrentOrder().toString());
-        alert.showAndWait();
+        alert.showAndWait(); */
     }
 
-    public Order getCurrentOrder(){
+    @FXML
+    public void onAddToOrderButtonClick() throws IOException {
+        if(numOrders==0){
+            //This is first popup order, but have shopping cart already so grab it
+            if(mainController.getCurrentOrder()!=null){
+                myPizzas = mainController.getCurrentOrder().getPizzas();
+            }
+        }
+        Pizza a = PizzaMaker.createPizza(pizzaTypeLabel.getText());
+        String sized = (String) comboBoxSizes.getSelectionModel().getSelectedItem();
+        a.size = sizeToEnum(sized);
+        a.toppings = convertAllToppingsToEnums(selectedToppings);
+        myPizzas.add(a);
+        currentOrder = new Order(myPizzas,phoneNumber);
+        numOrders++;
+        mainController.setCurrentOrder(currentOrder);
+        System.out.println(currentOrder.toString());
+        /*
+        if(mainController.getCurrentOrder()==null||numOrders==0){
+            firstOrder();
+        }
+        else if (multipleOrders == false) {
+            evenOrder();
+        }
+        else {
+            oddOrder();
+        }
+         */
+    }
+
+    public Size sizeToEnum(String size) {
+        if (size.equals("Small")) {
+            return Size.Small;
+        }
+        if (size.equals("Medium")) {
+            return Size.Medium;
+        } else return Size.Large;
+    }
+
+    public Order getCurrentOrder() {
         return this.currentOrder;
     }
 
-    public ArrayList<Topping> convertAllToppingsToEnums(ObservableList<String> selectedItems){
-        String a;
+    public ArrayList<Topping> convertAllToppingsToEnums(ListView selectedToppings) {
+        ObservableList a = selectedToppings.getItems();
         ArrayList<Topping> toppings = new ArrayList<Topping>();
-        for(int i = 0; i<selectedItems.size(); i++){
-            a = selectedItems.get(i);
-            Topping newTopping = Topping.Pepperoni;
-            newTopping = convertToppingToEnum(a);
-            toppings.add(newTopping);
+        for (int i = 0; i < a.size(); i++) {
+            String b = (String) a.get(i);
+            Topping enumTopping = convertToppingToEnum(b);
+            toppings.add(enumTopping);
         }
         return toppings;
     }
-    public Topping convertToppingToEnum(String topping){
+
+    public Topping convertToppingToEnum(String topping) {
         Topping newTopping = Topping.Pepperoni;
-         switch (topping){
-                case "Pepperoni": newTopping= Topping.Pepperoni; break;
-                case "Mushroom":  newTopping= Topping.Mushroom; break;
-                case "Pineapple":  newTopping= Topping.Pineapple; break;
-                case "Mozzarella":  newTopping= Topping.Mozzarella; break;
-                case "Olives":  newTopping= Topping.Olives; break;
-                case "Spinach":  newTopping= Topping.Spinach; break;
-                case "Ham":  newTopping= Topping.Ham; break;
-            }
+        switch (topping) {
+            case "Pepperoni":
+                newTopping = Topping.Pepperoni;
+                break;
+            case "Mushroom":
+                newTopping = Topping.Mushroom;
+                break;
+            case "Pineapple":
+                newTopping = Topping.Pineapple;
+                break;
+            case "Mozzarella":
+                newTopping = Topping.Mozzarella;
+                break;
+            case "Olives":
+                newTopping = Topping.Olives;
+                break;
+            case "Spinach":
+                newTopping = Topping.Spinach;
+                break;
+            case "Ham":
+                newTopping = Topping.Ham;
+                break;
+        }
         return newTopping;
     }
 }

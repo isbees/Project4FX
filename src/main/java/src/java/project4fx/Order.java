@@ -60,9 +60,6 @@ public class Order {
      * @param pizza the pizza that will be added to the customer's order
      */
     public void add(Pizza pizza) {
-        if(pizzas.isEmpty()) {
-            pizzas.add(pizza);
-        }
         pizzas.add(pizza);
     }
 
@@ -72,6 +69,12 @@ public class Order {
      * @param pizza that wants to cancel the order
      */
     public void remove(Pizza pizza) {
+        if(pizzas==null){
+            return;
+        }
+        if(pizzas.size()==0){
+            return;
+        }
         for (Pizza p : pizzas) {
             if (p.equals(pizza)) {
                 pizzas.remove(pizza);
@@ -147,11 +150,9 @@ public class Order {
      * @return output the Pizza type and all the toppings
      */
     public String toString() {
-
         String output = "Phone number: " + phoneNumber + "\nFull Order: \n";
         for (Pizza p : pizzas)
             output += findType(p) + "\n Toppings: \n" + p.toString();
-
         return output;
     }
 
@@ -184,5 +185,11 @@ public class Order {
     }
     public Pizza getPizza(int i){
         return pizzas.get(i);
+    }
+    public void setPizzas(ArrayList<Pizza> newPizzas){
+        pizzas = newPizzas;
+    }
+    public ArrayList<Pizza> getPizzas(){
+        return pizzas;
     }
 }

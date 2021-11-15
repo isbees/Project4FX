@@ -186,17 +186,3 @@ public class HelloController {
     }
 }
 
-  /*  Click on a pizza
-
-  Order order = findOrder(custPhoneNumber);
-if(order==null){
-        Order newOrder=new Order(custPhoneNumber)
-        };
-Pizzamaker p = new PizzaMaker
-    Deluxe deluxe1 =    p.newDeluxe();
-
-order.add(deluxe1)
-
-    Deluxe
-
-   */
