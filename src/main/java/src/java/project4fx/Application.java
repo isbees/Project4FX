@@ -41,6 +41,7 @@ public class Application extends javafx.application.Application {
 
         System.out.println("\n\nhere");
         so.printOrders();
+        System.out.println(me.toString(0));
         launch();
     }
 }

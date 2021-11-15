@@ -77,11 +77,13 @@ public class CustomizationViewController {
         selectedToppings.setItems(selectedToppingOptions);
         additionalToppings.setItems(additionalToppingOptions);
     }
+
     void setComboBox(){
         ObservableList<String> items = FXCollections.observableArrayList("Small","Medium","Large");
         comboBoxSizes.setItems(items);
         comboBoxSizes.setValue("Small");
     }
+
     public void setMainController(HelloController controller) {
         mainController = controller;
     }
@@ -162,9 +164,11 @@ public class CustomizationViewController {
         alert.setContentText(mainController.getCurrentOrder().toString());
         alert.showAndWait();
     }
+
     public Order getCurrentOrder(){
         return this.currentOrder;
     }
+
     public ArrayList<Topping> convertToEnums(ObservableList<String> selectedItems){
         String a;
         ArrayList<Topping> toppings = new ArrayList<Topping>();

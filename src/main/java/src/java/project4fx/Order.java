@@ -94,12 +94,28 @@ public class Order {
     }
 
     /**
+     * calculates the tax for the whole order
+     */
+    public double calcTax() {
+        return calcSubTotal() * .06625;
+    }
+
+    /**
      * Getter for phone number
      *
      * @return phoneNumber the person's phone number
      */
     public String getNumber() {
         return phoneNumber;
+    }
+
+    /**
+     * Gets the number of pizzas
+     *
+     * @return int the number of pizzas
+     */
+    public int getTotalPizzas() {
+        return pizzas.size();
     }
 
     /**
@@ -111,7 +127,7 @@ public class Order {
         String output = toString();
         double subTotal = calcSubTotal();
 
-        output += String.format("Subtotal: %1.2f \nTax: %1.2f \n Order Total: %1.2f \n",subTotal,subTotal*.06625,subTotal+subTotal*.06625);
+        output += String.format("\n\tSubtotal: %1.2f \nTax: %1.2f \n Order Total: %1.2f \n",subTotal,subTotal*.06625,subTotal+subTotal*.06625);
 
         return output;
     }
@@ -130,6 +146,15 @@ public class Order {
         return output;
     }
 
+    /**
+     * Overloaded toString that returns the details of a pizza at one index
+     *
+     * @param i the index of the pizza we want
+     * @return output the specific Pizza
+     */
+    public String toString(int i) {
+        return findType(pizzas.get(i)) + " pizza, " + pizzas.get(i).toString() + pizzas.get(i).size + ", $" + pizzas.get(i).price();
+    }
 
     /**
      * Returns the pizza flavor

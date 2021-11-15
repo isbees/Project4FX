@@ -15,6 +15,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * The Main Controller for the whole pizzeria
+ *
+ * @author Zack Goldman
+ */
 public class HelloController {
     //Instance variable
     private String pizzaType;
@@ -119,10 +124,25 @@ public class HelloController {
         Scene scene = new Scene(fxmlLoader.load(), 600, 700);
         CurrentOrderViewController coView = fxmlLoader.getController();
         coView.setMainController(this);
-        coView.setCustPhoneNumber(currentOrder.getNumber());
-        stage.setTitle("Current-Orders!");
-        stage.setScene(scene);
-        stage.show();
+        try {
+            double subTotal = currentOrder.calcSubTotal(), tax = currentOrder.calcTax();
+            double total = subTotal + tax;
+
+            coView.setCustPhoneNumber(currentOrder.getNumber());
+            coView.setSubtotal(subTotal);
+            System.out.println(subTotal);
+            coView.setOrderTotal(total);
+            coView.setTax(tax);
+            System.out.println(total);
+            stage.setTitle("Current-Orders!");
+            stage.setScene(scene);
+            stage.show();
+        }catch (NullPointerException e){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("There Are no orders!");
+            alert.showAndWait();
+            return;
+        }
     }
 
     //Goes to 4th view

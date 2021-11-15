@@ -106,9 +106,9 @@ public abstract class Pizza {
      */
     public String toString(){
         String output = "";
-        //System.out.println("The topping list size: " + toppings.size());
+
         for (Topping t : toppings){
-            output += "\t" + t + "\n";
+            output += t + ", ";
         }
 
         return output;
