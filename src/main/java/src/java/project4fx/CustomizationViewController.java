@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javafx.fxml.FXML;
@@ -46,6 +47,7 @@ public class CustomizationViewController {
     private int numToppings;
     private int price;
     private Order currentOrder;
+    private Pizza newPizza;
     @FXML
     public void setListViews(String pizzaType) {
         ObservableList<String> selectedToppingOptions;
@@ -53,18 +55,18 @@ public class CustomizationViewController {
        if (pizzaType.equals("Deluxe")) {
             selectedToppingOptions =
                     FXCollections.observableArrayList("Pepperoni",
-                            "Mushroom","Pineapple","Mozzarella","Spinach");
+                            "Mushroom","Spinach","Mozzarella","Olives");
             maxToppings=5;
             additionalToppingOptions =
-                    FXCollections.observableArrayList("Olives", "Ham");
+                    FXCollections.observableArrayList("Pineapple", "Ham");
         }
         else if(pizzaType.equals("Hawaiian")){
             selectedToppingOptions =
-                    FXCollections.observableArrayList("Pineapple","Mozzarella");
+                    FXCollections.observableArrayList("Pineapple","Ham");
            maxToppings=2;
 
            additionalToppingOptions = FXCollections.observableArrayList(
-                    "Olives", "Ham","Mushroom","Spinach","Pepperoni");
+                    "Olives", "Mozzarella","Mushroom","Spinach","Pepperoni");
         }
         else {
             selectedToppingOptions =
@@ -83,13 +85,18 @@ public class CustomizationViewController {
         comboBoxSizes.setItems(items);
         comboBoxSizes.setValue("Small");
     }
-
+    void changePrice(){
+        //Sets up price
+        Double price = newPizza.price();
+        DecimalFormat f = new DecimalFormat("##.00");
+        String priceToSet = f.format(price);
+        priceArea.setText(priceToSet);
+    }
+    @FXML
     public void setMainController(HelloController controller) {
         mainController = controller;
     }
-    void setPrice(){
-        //call to set price -> based on selected pizza, and small initially.
-    }
+
     public void setPhoneNumber(String number) {
         phoneNumber = number;
     }
@@ -111,21 +118,34 @@ public class CustomizationViewController {
         setListViews(pizzaType);
         setComboBox();
         pizzaTypePhoto.setImage(img);
-        setPrice();
+        newPizza = PizzaMaker.createPizza(mainController.getPizzaType());
+        changePrice();
     }
     @FXML
     void onComboBoxSizesClick() {
         String size = String.valueOf(comboBoxSizes.getSelectionModel().getSelectedItem());
-        //Call to price change for size change
+        Size enumSize = Size.Small;
+        if(size.equals("Medium")){
+            enumSize=Size.Medium;
+        }
+        else if(size.equals("Large")){
+            enumSize=Size.Large;
+        }
+        newPizza.size = enumSize;
+        changePrice();
     }
     @FXML
     void onAddButtonClick(){
         if(null==additionalToppings.getSelectionModel().getSelectedItem()){
             return;
         }
+        String newTopping = (String) additionalToppings.getSelectionModel().getSelectedItem();
+        Topping addedTopping = convertToppingToEnum(newTopping);
+        newPizza.addTopping(addedTopping);
         selectedToppings.getItems().add(additionalToppings.getSelectionModel().getSelectedItem());
         additionalToppings.getItems().remove(additionalToppings.getSelectionModel().getSelectedItem());
         numToppings++;
+        changePrice();
         //call to price change for topping amount change- can use maxToppings and numToppings
     }
     @FXML
@@ -133,9 +153,14 @@ public class CustomizationViewController {
         if(null==selectedToppings.getSelectionModel().getSelectedItem()){
             return;
         }
+        String newTopping = (String) selectedToppings.getSelectionModel().getSelectedItem();
+        Topping removedTopping = convertToppingToEnum(newTopping);
+        newPizza.removeTopping(removedTopping);
         additionalToppings.getItems().add(selectedToppings.getSelectionModel().getSelectedItem());
         selectedToppings.getItems().remove(selectedToppings.getSelectionModel().getSelectedItem());
         numToppings--;
+        changePrice();
+        System.out.println("OUR PIZZA IS: "+newPizza.toString());
         //call to price change for topping amount change- can use maxToppings and numToppings
     }
     @FXML
@@ -144,7 +169,7 @@ public class CustomizationViewController {
         Order currentOrderInSystem = mainController.getCurrentOrder();
         Pizza p = PizzaMaker.createPizza(pizzaTypeLabel.getText());
         ArrayList<Topping> pizzaToppings = new ArrayList<Topping>();
-        pizzaToppings = convertToEnums(selectedToppings.getItems());
+        pizzaToppings = convertAllToppingsToEnums(selectedToppings.getItems());
         p.addToppings(pizzaToppings);
         //If we have no orders, make a new order
         if(currentOrderInSystem==null){
@@ -169,13 +194,20 @@ public class CustomizationViewController {
         return this.currentOrder;
     }
 
-    public ArrayList<Topping> convertToEnums(ObservableList<String> selectedItems){
+    public ArrayList<Topping> convertAllToppingsToEnums(ObservableList<String> selectedItems){
         String a;
         ArrayList<Topping> toppings = new ArrayList<Topping>();
         for(int i = 0; i<selectedItems.size(); i++){
             a = selectedItems.get(i);
             Topping newTopping = Topping.Pepperoni;
-            switch (a){
+            newTopping = convertToppingToEnum(a);
+            toppings.add(newTopping);
+        }
+        return toppings;
+    }
+    public Topping convertToppingToEnum(String topping){
+        Topping newTopping = Topping.Pepperoni;
+         switch (topping){
                 case "Pepperoni": newTopping= Topping.Pepperoni; break;
                 case "Mushroom":  newTopping= Topping.Mushroom; break;
                 case "Pineapple":  newTopping= Topping.Pineapple; break;
@@ -184,9 +216,7 @@ public class CustomizationViewController {
                 case "Spinach":  newTopping= Topping.Spinach; break;
                 case "Ham":  newTopping= Topping.Ham; break;
             }
-            toppings.add(newTopping);
-        }
-        return toppings;
+        return newTopping;
     }
 }
 

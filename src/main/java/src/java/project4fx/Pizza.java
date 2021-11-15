@@ -66,7 +66,7 @@ public abstract class Pizza {
     public void removeTopping(Topping topping) {
         for (Topping t : toppings) {
             if (t == topping) {
-                toppings.add(topping);
+                toppings.remove(topping);
                 break;
             }
         }
