@@ -10,9 +10,9 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.java.project4fx.CurrentOrderViewController">
    <children>
+      <ListView fx:id="orderPizzas" layoutX="35.0" layoutY="83.0" prefHeight="200.0" prefWidth="531.0" />
       <Label fx:id="custPhoneNumberLabel" layoutX="146.0" layoutY="50.0" text="Customer phone number" />
       <TextField fx:id="custPhoneNumber" editable="false" layoutX="300.0" layoutY="46.0" />
-      <ListView layoutX="35.0" layoutY="83.0" prefHeight="200.0" prefWidth="531.0" />
       <Text fx:id="subtotalText" layoutX="59.0" layoutY="319.0" strokeType="OUTSIDE" strokeWidth="0.0" text="subtotal $" />
       <Text fx:id="orderTotalText" layoutX="113.0" layoutY="367.0" strokeType="OUTSIDE" strokeWidth="0.0" text="order total $" />
       <TextField fx:id="subtotalTextField" editable="false" layoutX="124.0" layoutY="303.0" prefHeight="26.0" prefWidth="55.0" />
