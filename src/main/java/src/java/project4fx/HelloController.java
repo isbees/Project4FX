@@ -199,9 +199,10 @@ public class HelloController {
         StoreordersViewController soView = fxmlLoader.getController();
 
         soView.setMainController(this);
+        soView.setStoreOrder(storeOrder);
         soView.setCustPhoneNumber(currentOrder.getNumber());
         soView.setOrderTotal(currentOrder.calcSubTotal() + currentOrder.calcTax());
-        //soView.setListViews();
+        soView.setListViews();
 
         stage.setTitle("Your-Store-Orders!");
         stage.setScene(scene);

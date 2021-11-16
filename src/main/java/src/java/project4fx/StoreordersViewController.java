@@ -2,6 +2,8 @@
 
 package src.java.project4fx;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,6 +20,7 @@ import javafx.scene.image.*;
 public class StoreordersViewController {
 
     private HelloController mainController;
+    private StoreOrders storeOrders;
 
     @FXML
     Label custPhoneNumberLabel;
@@ -36,6 +39,7 @@ public class StoreordersViewController {
     @FXML
     Button exportStoreOrdersButton;
     @FXML
+    ListView ordersList;
 
     public void setMainController(HelloController controller) {
         mainController = controller;
@@ -45,8 +49,28 @@ public class StoreordersViewController {
         custPhoneNumber.setText(number);
     }
 
+    public void setStoreOrder(StoreOrders orders) {
+        storeOrders = orders;
+    }
+
     public void setOrderTotal(double total) {
         orderTotal.setText(String.format("%1.2f", total));
+    }
+
+    /**
+     * setListViews() sets up the list view by filling it with the orders in
+     * the user's current order
+     */
+    public void setListViews() {
+        String[] listOfOrders = new String[storeOrders.getTotalOrders()];
+        ObservableList<String> orders;
+
+        for (int i = 0; i < storeOrders.getTotalOrders(); i++) {
+            listOfOrders[i] = storeOrders.printOrder(i);
+        }
+
+        orders = FXCollections.observableArrayList(listOfOrders);
+        ordersList.setItems(orders);
     }
 
     void onCancelOrderButtonClick(){
@@ -68,4 +92,5 @@ public class StoreordersViewController {
         File targetFile = chooser.showSaveDialog(stage); //get the reference of the target file
         //write code to write to the file.
     }
+
 }
