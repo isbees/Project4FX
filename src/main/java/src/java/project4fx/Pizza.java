@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Pizza will create a pizza with a list of toppings and size.
  *
- * @author Isaac Brukhman
+ * @author Zachary Goldman, Isaac Brukhman
  */
 public abstract class Pizza {
 
@@ -72,14 +72,6 @@ public abstract class Pizza {
     }
 
     /**
-     * clearToppings() removes all of the toppings of our pizza and sets its
-     * toppings arraylist of enum Topping to null
-     */
-    public void clearToppings() {
-        this.toppings = null;
-    }
-
-    /**
      * Checks if a pizza is passed and whether it's toppings and size is the same
      *
      * @param obj the pizza that is being checked
@@ -112,14 +104,23 @@ public abstract class Pizza {
      * @return String the toppings
      */
     public String toString() {
-        String output = "Size = " + size;
+        String output = "Size = " + size+", ";
 
-        for (Topping t : toppings) {
-            output += t + ", ";
+        for (int i = 0; i<toppings.size(); i++){
+            if(i==toppings.size()-1){
+                output+= toppings.get(i)+". ";
+                break;
+            }
+            output += toppings.get(i) + ", ";
         }
 
         return output;
     }
+
+    /**
+     * setSize() sets the size
+     * @param newSize the size
+     */
     public void setSize(Size newSize){
         this.size = newSize;
     }

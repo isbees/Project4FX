@@ -3,7 +3,7 @@ package src.java.project4fx;
 /**
  * PizzaMaker will create a pizza based off the type of flavor.
  *
- * @author Isaac Brukhman
+ * @author Zachary Goldman, Isaac Brukhman
  */
 public class PizzaMaker {
 

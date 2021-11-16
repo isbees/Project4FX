@@ -1,31 +1,19 @@
-//3rd view
 package src.java.project4fx;
 
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.image.*;
+
 
 /**
- * @author Zachary Goldman, Isaac Bruhkstein
+ * @author Zachary Goldman, Isaac Bruhkman
  * The CurrentOrderViewController shows the user's current order and lets them
  * remove items, or bring the order to the store's server!
  */
 
 public class CurrentOrderViewController {
-    Order current = new Order();
-    private double total, subtotal, tax;
     private HelloController mainController;
 
     @FXML
@@ -131,7 +119,6 @@ public class CurrentOrderViewController {
             alert.setTitle("Order cannot be completed");
             alert.setHeaderText("You must have a pizza in the list!");
         } else {
-            System.out.println("Here");
             mainController.addToStoreOrder(mainController.getCurrentOrder());
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Order has been sent to the store");

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * StoreOrders holds a list of all the orders of the customers.
  *
- * @author Isaac Brukhman
+ * @author Zachary Goldman, Isaac Brukhman
  */
 
 public class StoreOrders {
@@ -61,12 +61,30 @@ public class StoreOrders {
     }
 
     /**
-     * Adds another customer to the order list
+     * Adds another order, dealing with duplicate orders from same number
      *
      * @param customer that wants to order
      */
     public void add(Order customer) {
-        orders.add(customer);
+        boolean duplicate = false;
+        int index = 0;
+        for (int i = 0; i < orders.size(); i++) {
+            if (orders.get(i).getNumber().equals(customer.getNumber())) {
+                index = i;
+                duplicate = true;
+                break;
+            }
+        }
+
+        //add the pizzas onto their order
+        if (duplicate) {
+            Order dupe = orders.get(index);
+            for (int i = 0; i < customer.getTotalPizzas(); i++) {
+                dupe.add(customer.getPizza(i));
+            }
+        } else {
+            orders.add(customer);
+        }
     }
 
     /**
@@ -94,17 +112,16 @@ public class StoreOrders {
         }
     }
 
-    /**
-     * removes a customer to the order list
-     *
-     * @param customer that wants to cancel the order
-     */
+        /**
+         * removes a customer to the order list
+         *
+         * @param customer that wants to cancel the order
+         */
     public void remove(Order customer) {
-        for (Order a : orders) {
-            if (a.getNumber().equals(customer.getNumber())) {
-                orders.remove(customer);
-            }
+        if(orders==null){
+            return;
         }
+        orders.remove(customer);
     }
 
     /**

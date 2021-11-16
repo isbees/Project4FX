@@ -1,4 +1,3 @@
-//1st view
 package src.java.project4fx;
 
 import javafx.fxml.FXML;
@@ -6,19 +5,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
-import javafx.scene.layout.BorderPane;
-
 import java.io.IOException;
-import java.util.ArrayList;
-
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
  * The Main Controller for the whole pizzeria
  *
- * @author Zack Goldman
+ * @author Zachary Goldman, Isaac Brukhman
  */
 public class HelloController {
 
@@ -193,6 +186,9 @@ public class HelloController {
      * @throws IOException
      */
     public void openStoreOrders() throws IOException {
+        if(storeOrder.getTotalOrders()==0||storeOrder==null||storeOrder.getOrders()==null){
+            return;
+        }
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("storeorders-view.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(fxmlLoader.load(), 600, 700);

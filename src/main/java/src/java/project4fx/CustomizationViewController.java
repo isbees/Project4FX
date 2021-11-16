@@ -1,19 +1,12 @@
-//2nd view
-
 package src.java.project4fx;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.*;

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Order holds the pizzas and phone number for one customer
  *
- * @author Isaac Brukhman
+ * @author Zachary Goldman, Isaac Brukhman
  */
 
 public class Order {

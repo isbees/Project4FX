@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Deluxe is a subtype of Pizza that defines the price method
  *
- * @author Isaac Brukhman
+ * @author Zachary Goldman, Isaac Brukhman
  */
 public class Deluxe extends Pizza {
 

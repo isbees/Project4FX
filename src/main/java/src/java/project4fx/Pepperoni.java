@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Pepperoni is a subtype of Pizza that defines the price method
  *
- * @author Isaac Brukhman
+ * @author Zachary Goldman, Isaac Brukhman
  */
 public class Pepperoni extends Pizza {
 

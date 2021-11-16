@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Hawaiian is a subtype of Pizza that defines the price method
  *
- * @author Isaac Brukhman
+ * @author Zachary Goldman, Isaac Brukhman
  */
 public class Hawaiian extends Pizza {
 

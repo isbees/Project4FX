@@ -1,11 +1,9 @@
 package src.java.project4fx;
 
-import java.util.ArrayList;
-
 import static org.junit.Assert.*;
 
 /**
- * @author Zachary Goldman
+ * @author Zachary Goldman, Isaac Brukhman
  * DeluxeTest tests the price() method of Deluxe
  */
 class DeluxeTest {
