@@ -66,17 +66,7 @@ public class StoreOrders {
      * @param customer that wants to order
      */
     public void add(Order customer) {
-        for (int i = 0; i <= orders.size(); i++) {
-            if (orders.isEmpty()) {
-                System.out.println("please enter here");
-                orders.add(customer);
-                break;
-            }
-            if (orders.get(i).getNumber().equals(customer.getNumber())) {
-                continue;
-            }
-            orders.add(customer);
-        }
+        orders.add(customer);
     }
 
     /**
@@ -156,7 +146,7 @@ public class StoreOrders {
      *
      * @return int the number of orders
      */
-    public int getTotalOrders(){
+    public int getTotalOrders() {
         return orders.size();
     }
 
@@ -165,8 +155,7 @@ public class StoreOrders {
      *
      * @return Order the order
      */
-    public Order getAOrder(int i){
-        System.out.println("This is the get Order method index: "+ i);
-        return orders.get(i);
+    public ArrayList<Order> getOrders() {
+        return orders;
     }
 }

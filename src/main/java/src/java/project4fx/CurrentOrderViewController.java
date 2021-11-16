@@ -25,7 +25,7 @@ import javafx.scene.image.*;
 
 public class CurrentOrderViewController {
     Order current = new Order();
-    double total, subtotal, tax;
+    private double total, subtotal, tax;
     private HelloController mainController;
 
     @FXML

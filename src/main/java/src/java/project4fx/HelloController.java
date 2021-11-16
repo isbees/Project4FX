@@ -200,7 +200,9 @@ public class HelloController {
 
         soView.setMainController(this);
         soView.setStoreOrder(storeOrder);
-        soView.setListViews();
+        soView.setDefaultListView();
+        soView.setUpComboBox();
+        soView.setOrderTotal();
 
         stage.setTitle("Your-Store-Orders!");
         stage.setScene(scene);

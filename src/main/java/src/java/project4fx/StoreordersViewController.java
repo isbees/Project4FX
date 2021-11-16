@@ -12,29 +12,31 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
+
+import java.util.ArrayList;
 
 public class StoreordersViewController {
 
     private HelloController mainController;
     private StoreOrders storeOrders;
     private String phoneNum;
+    private ArrayList<String> phoneNumbers = new ArrayList<String>();
 
     @FXML
     Label custPhoneNumberLabel;
-    @FXML
-    TextField customerPhoneNumber;
     @FXML
     Label ordertotalLabel;
     @FXML
     TextField orderTotal;
     @FXML
-    TextField custPhoneNumber;
-    @FXML
-    ListView ordersListView;
+    ComboBox phoneNumbersComboBox;
     @FXML
     Button cancelOrderButton;
     @FXML
@@ -46,19 +48,13 @@ public class StoreordersViewController {
         mainController = controller;
     }
 
-    public void setCustPhoneNumber() {
-        phoneNum = storeOrders.getAOrder(0).getNumber();
-        custPhoneNumber.setText(phoneNum);
-    }
-
     public void setStoreOrder(StoreOrders orders) {
         storeOrders = orders;
-        setCustPhoneNumber();
-        setOrderTotal();
     }
 
     public void setOrderTotal() {
-        String s = String.format("%1.2f",storeOrders.getAOrder(0).calcSubTotal() + storeOrders.getAOrder(0).calcTax());
+        double firstSum = storeOrders.getOrders().get(0).calcTax() + storeOrders.getOrders().get(0).calcSubTotal();
+        String s = String.format("%1.2f", firstSum);
         orderTotal.setText(s);
     }
 
@@ -66,22 +62,68 @@ public class StoreordersViewController {
      * setListViews() sets up the list view by filling it with the orders in
      * the user's current order
      */
-    public void setListViews() {
-        int index = storeOrders.find(phoneNum);
-        Order currentOrderInSystem = storeOrders.getAOrder(index);
-        String[] listOfOrders = new String[currentOrderInSystem.getTotalPizzas()];
-        ObservableList<String> orders;
-
-        for (int i = 0; i < currentOrderInSystem.getTotalPizzas(); i++) {
-            listOfOrders[i] = currentOrderInSystem.toString(i);
+    public void setListView(String number) {
+        Order orderToDisplay = new Order();
+        for(int i = 0; i<storeOrders.getTotalOrders(); i++){
+            if(storeOrders.getOrders().get(i).getNumber().equals(number)){
+                orderToDisplay = storeOrders.getOrders().get(i);
+                break;
+            }
+        }
+        ArrayList<String> output= new ArrayList<String>();
+        for(int i = 0; i<orderToDisplay.getTotalPizzas(); i++){
+            output.add(orderToDisplay.toString(i));
         }
 
-        orders = FXCollections.observableArrayList(listOfOrders);
-        ordersList.setItems(orders);
+        ObservableList<String> listOfOrders = FXCollections.observableArrayList(output);
+        ordersList.setItems(listOfOrders);
+    }
+    @FXML
+    void setDefaultListView(){
+        setListView(storeOrders.getOrders().get(storeOrders.getTotalOrders() - 1).getNumber());
+    }
+    @FXML
+    void setUpComboBox() {
+        //Sets up the phone numbers in combobox
+        for (int i = 0; i < storeOrders.getTotalOrders(); i++) {
+            phoneNumbers.add(storeOrders.getOrders().get(i).getNumber());
+        }
+        ObservableList<String> items = FXCollections.observableArrayList(phoneNumbers);
+        phoneNumbersComboBox.setItems(items);
+
+        //Defaults the most recent phone number
+        int numOrders = storeOrders.getTotalOrders();
+        phoneNumbersComboBox.setValue(storeOrders.getOrders().get(numOrders - 1).getNumber());
+    }
+
+    //When you change combobox selection -> change orders
+    @FXML
+    void onComboBoxNumberClick() {
+        String phone = String.valueOf(phoneNumbersComboBox.getSelectionModel().getSelectedItem());
+        System.out.println("Phone num = "+phone);
+        setListView(phone);
+        resetTotalPrice(phone);
+    }
+
+    //When you select a different order -> change price
+    @FXML
+    void resetTotalPrice(String phoneN){
+        Order o = new Order();
+        for(int i = 0; i<storeOrders.getTotalOrders(); i++){
+            if(storeOrders.getOrders().get(i).getNumber().equals(phoneN)){
+                o = storeOrders.getOrders().get(i);
+                break;
+            }
+        }
+        double newSum = o.calcTax() + o.calcSubTotal();
+        String s = String.format("%1.2f", newSum);
+        System.out.println("here and text should be: "+newSum);
+
+        orderTotal.setText(s);
     }
 
     @FXML
-    void onCancelOrderButtonClick(){
+    void onCancelOrderButtonClick() {
         //if(things not empty) storeOrders.cancelOrder(order);
         //and below. else (alert wrong info)
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -90,15 +132,29 @@ public class StoreordersViewController {
         alert.setContentText("We all make mistakes, feel free to order another one when you feel ready.");
         alert.showAndWait();
     }
+
     @FXML
-    void exportFile(ActionEvent event) {
+    void exportFile(ActionEvent event) throws FileNotFoundException {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Open Target File for the Export");
         chooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text Files", "*.txt"),
                 new FileChooser.ExtensionFilter("All Files", "*.*"));
         Stage stage = new Stage();
         File targetFile = chooser.showSaveDialog(stage); //get the reference of the target file
-        //write code to write to the file.
+
+        //Write out the info to the file
+        writeToFileExport(targetFile);
+
     }
+
+    void writeToFileExport(File file) throws FileNotFoundException {
+        PrintWriter pw = new PrintWriter(file);
+        //Write it all to the file->
+        for (int i = 0; i < storeOrders.getTotalOrders(); i++) {
+            pw.println(storeOrders.printOrder(i));
+        }
+        pw.close();
+    }
+
 
 }
