@@ -200,8 +200,6 @@ public class HelloController {
 
         soView.setMainController(this);
         soView.setStoreOrder(storeOrder);
-        soView.setCustPhoneNumber(currentOrder.getNumber());
-        soView.setOrderTotal(currentOrder.calcSubTotal() + currentOrder.calcTax());
         soView.setListViews();
 
         stage.setTitle("Your-Store-Orders!");

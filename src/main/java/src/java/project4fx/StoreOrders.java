@@ -46,14 +46,29 @@ public class StoreOrders {
     }
 
     /**
+     * finds the customer based on their phone number
+     *
+     * @param number the customer's phone number
+     * @return int if not found return -1
+     */
+    public int find(String number) {
+        for (int i = 0; i < orders.size() + 1; i++) {
+            if (orders.get(i).getNumber().equals(number)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
      * Adds another customer to the order list
      *
      * @param customer that wants to order
      */
     public void add(Order customer) {
-        Order a;
-        for (int i = 0; i < orders.size(); i++) {
+        for (int i = 0; i <= orders.size(); i++) {
             if (orders.isEmpty()) {
+                System.out.println("please enter here");
                 orders.add(customer);
                 break;
             }
@@ -143,5 +158,15 @@ public class StoreOrders {
      */
     public int getTotalOrders(){
         return orders.size();
+    }
+
+    /**
+     * Gets one order by index
+     *
+     * @return Order the order
+     */
+    public Order getAOrder(int i){
+        System.out.println("This is the get Order method index: "+ i);
+        return orders.get(i);
     }
 }

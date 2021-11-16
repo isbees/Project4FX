@@ -21,6 +21,7 @@ public class StoreordersViewController {
 
     private HelloController mainController;
     private StoreOrders storeOrders;
+    private String phoneNum;
 
     @FXML
     Label custPhoneNumberLabel;
@@ -45,16 +46,20 @@ public class StoreordersViewController {
         mainController = controller;
     }
 
-    public void setCustPhoneNumber(String number) {
-        custPhoneNumber.setText(number);
+    public void setCustPhoneNumber() {
+        phoneNum = storeOrders.getAOrder(0).getNumber();
+        custPhoneNumber.setText(phoneNum);
     }
 
     public void setStoreOrder(StoreOrders orders) {
         storeOrders = orders;
+        setCustPhoneNumber();
+        setOrderTotal();
     }
 
-    public void setOrderTotal(double total) {
-        orderTotal.setText(String.format("%1.2f", total));
+    public void setOrderTotal() {
+        String s = String.format("%1.2f",storeOrders.getAOrder(0).calcSubTotal() + storeOrders.getAOrder(0).calcTax());
+        orderTotal.setText(s);
     }
 
     /**
@@ -62,17 +67,20 @@ public class StoreordersViewController {
      * the user's current order
      */
     public void setListViews() {
-        String[] listOfOrders = new String[storeOrders.getTotalOrders()];
+        int index = storeOrders.find(phoneNum);
+        Order currentOrderInSystem = storeOrders.getAOrder(index);
+        String[] listOfOrders = new String[currentOrderInSystem.getTotalPizzas()];
         ObservableList<String> orders;
 
-        for (int i = 0; i < storeOrders.getTotalOrders(); i++) {
-            listOfOrders[i] = storeOrders.printOrder(i);
+        for (int i = 0; i < currentOrderInSystem.getTotalPizzas(); i++) {
+            listOfOrders[i] = currentOrderInSystem.toString(i);
         }
 
         orders = FXCollections.observableArrayList(listOfOrders);
         ordersList.setItems(orders);
     }
 
+    @FXML
     void onCancelOrderButtonClick(){
         //if(things not empty) storeOrders.cancelOrder(order);
         //and below. else (alert wrong info)

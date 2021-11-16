@@ -131,6 +131,7 @@ public class CurrentOrderViewController {
             alert.setTitle("Order cannot be completed");
             alert.setHeaderText("You must have a pizza in the list!");
         } else {
+            System.out.println("Here");
             mainController.addToStoreOrder(mainController.getCurrentOrder());
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Order has been sent to the store");
@@ -139,6 +140,7 @@ public class CurrentOrderViewController {
             alert.showAndWait();
             reset();
         }
+
     }
 
     /**
