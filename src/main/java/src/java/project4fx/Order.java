@@ -152,7 +152,7 @@ public class Order {
     public String toString() {
         String output = "Phone number: " + phoneNumber + "\nFull Order: \n";
         for (Pizza p : pizzas)
-            output += findType(p) + "\n Toppings: \n" + p.toString();
+            output += "\n"+findType(p) + "\n Toppings: \n" + p.toString();
         return output;
     }
 

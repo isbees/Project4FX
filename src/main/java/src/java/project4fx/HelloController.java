@@ -21,10 +21,12 @@ import javafx.stage.Stage;
  * @author Zack Goldman
  */
 public class HelloController {
-    //Instance variable
+
+    //Instance variables
     private String pizzaType;
     private StoreOrders storeOrder;
     private Order currentOrder;
+
     //Assets
     @FXML
     Label labelZachIsaacPizzeria;
@@ -47,36 +49,53 @@ public class HelloController {
     @FXML
     Button storeOrdersBtn;
 
-
-
     public void initialize(){
         storeOrder= new StoreOrders();
     }
-    //Get pizzatype selected
+
+    /**
+     * getPizzaType()
+     * Gets the type of pizza the user selects to be used to load the image and
+     * information about that pizza in customization menu
+     * @return pizzaType
+     */
     String getPizzaType() {
         return this.pizzaType;
     }
-    //Navigation
 
-    //Goes to 2nd view
+    /**
+     * Opens a new customizationView with Hawaiian defaults
+      * @throws IOException
+     */
     @FXML
     void openNewHawaiian() throws IOException {
         pizzaType = "Hawaiian";
         checkOpenNewCustomization();
     }
-
+    /**
+     * Opens a new customizationView with Pepperoni defaults
+     * @throws IOException
+     */
     @FXML
     void openNewPepperoni() throws IOException {
         pizzaType = "Pepperoni";
         checkOpenNewCustomization();
     }
-
+    /**
+     * Opens a new customizationView with Deluxe defaults
+     * @throws IOException
+     */
     @FXML
     void openNewDeluxe() throws IOException {
         pizzaType = "Deluxe";
         checkOpenNewCustomization();
     }
 
+    /**
+     * Opens a new CustomizationView but first checks that the phone number
+     * is valid and doesn't conflict with an existing current order
+     * @throws IOException
+     */
     public void checkOpenNewCustomization() throws IOException {
         String phoneNumText = custPhoneNumber.getText();
         try {
@@ -100,11 +119,18 @@ public class HelloController {
         }
         else{
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("You have an existing order with diff #:"+phoneNumText);
+            alert.setTitle("You have an existing order with diff #:");
+            alert.setHeaderText("Should be: "+currentOrder.getNumber());
             alert.showAndWait();
             return;
         }
     }
+
+    /**
+     * Opens up the CustomizationView
+     * @param phoneNumber
+     * @throws IOException
+     */
      void openCustomization(String phoneNumber) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("customization-view.fxml"));
         Stage stage = new Stage();
@@ -119,10 +145,19 @@ public class HelloController {
     }
     //Goes to 3rd view
     public void openCurrentOrder() throws IOException {
-        for(int i = 0; i<currentOrder.getTotalPizzas(); i++){
-            System.out.println("Pizza: Size = "+currentOrder.getPizza(i).size+"with: "+currentOrder.getPizza(i).toString());
+        if(currentOrder==null){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("You haven't made an order!");
+            alert.showAndWait();
+            return;
         }
-        /*
+        if(!custPhoneNumber.getText().equals(currentOrder.getNumber())){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("You have an existing order with diff #:");
+            alert.setHeaderText("Should be: "+currentOrder.getNumber());
+            alert.showAndWait();
+            return;
+        }
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("currentorder-view.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(fxmlLoader.load(), 600, 700);
@@ -148,7 +183,7 @@ public class HelloController {
             return;
         }
 
-         */
+
     }
 
     //Goes to 4th view

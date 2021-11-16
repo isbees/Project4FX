@@ -52,7 +52,7 @@ public class StoreOrders {
      */
     public void add(Order customer) {
         Order a;
-        for (int i =0; i < orders.size()+1; i++) {
+        for (int i =0; i < orders.size(); i++) {
             if(orders.isEmpty()) {
                 orders.add(customer);
                 break;

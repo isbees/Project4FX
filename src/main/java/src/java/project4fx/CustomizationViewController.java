@@ -18,7 +18,18 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 
+/**
+ * @author Zachary Goldman, Isaac Brukhman
+ * CustomizationViewController lets the user add pizzas to their current order,
+ * by choosing which type of pizza, toppings, and size.
+ */
 public class CustomizationViewController {
+    private HelloController mainController;
+    private String phoneNumber;
+    private Order currentOrder;
+    private Pizza newPizza;
+    private int numOrders;
+    private ArrayList<Pizza> myPizzas = new ArrayList<Pizza>();
 
     @FXML
     Button addButton;
@@ -41,21 +52,11 @@ public class CustomizationViewController {
     @FXML
     Button addToOrderButton;
 
-    private HelloController mainController;
-    private String phoneNumber;
-    private Order currentOrder;
-    private Pizza newPizza;
-    private Order tempOrder;
-    private boolean multipleOrders;
-    private int numOrders;
-    private ArrayList<Pizza> myPizzas = new ArrayList<Pizza>();
-    private Pizza multPizza;
-    private int i =0;
-
+    /**
+     * setListViews sets up the options of toppings based on what type of pizza it is
+     */
     @FXML
     public void setListViews(String pizzaType) {
-        System.out.println("in setlistvidws");
-
         ObservableList<String> selectedToppingOptions;
         ObservableList<String> additionalToppingOptions;
         if (pizzaType.equals("Deluxe")) {
@@ -81,39 +82,59 @@ public class CustomizationViewController {
         additionalToppings.setItems(additionalToppingOptions);
     }
 
+    /**
+     * setComboBox() defaults the combobox to small
+     */
+    @FXML
     void setComboBox() {
-        System.out.println("in setcombobox");
         ObservableList<String> items = FXCollections.observableArrayList("Small", "Medium", "Large");
         comboBoxSizes.setItems(items);
         comboBoxSizes.setValue("Small");
     }
 
+    /**
+     * changePrice() changes the displayed price based on our newPizza instance variable
+     * and its settings
+     */
+    @FXML
     void changePrice() {
-        System.out.println("in changeprice");
-        //Sets up price
         Double price = 0.0;
-        if (multipleOrders == false) {
-            price = newPizza.price();
-        } else {
-            price = multPizza.price();
-        }
+        price = newPizza.price();
+
         DecimalFormat f = new DecimalFormat("##.00");
         String priceToSet = f.format(price);
         priceArea.setText(priceToSet);
     }
 
+    /**
+     * setMainController gives us access to the HelloController by passing it in
+     * from that class
+     *
+     * @param controller
+     */
     @FXML
     public void setMainController(HelloController controller) {
         mainController = controller;
     }
 
+    /**
+     * setPhoneNumber gives us access to the user's phone number from the
+     * HelloController
+     *
+     * @param number
+     */
     public void setPhoneNumber(String number) {
         phoneNumber = number;
     }
 
+    /**
+     * setPhotoListViewsComboBoxPrice initializes all of those methods to fill
+     * in the view with the defaults -> small, 5 toppings for deluxe for example,
+     * and the price as a result.
+     * It also fills in the correct photo and initializes instance variables.
+     */
     @FXML
     public void setPhotoListViewsComboBoxPrice() {
-        System.out.println("in setphoto");
         String pizzaType = mainController.getPizzaType();
         pizzaTypeLabel.setText(pizzaType);
         Image img;
@@ -131,46 +152,42 @@ public class CustomizationViewController {
         setComboBox();
         pizzaTypePhoto.setImage(img);
         newPizza = PizzaMaker.createPizza(mainController.getPizzaType());
-        multPizza = PizzaMaker.createPizza(mainController.getPizzaType());
         changePrice();
-        int numOrders=0;
     }
 
+    /**
+     * onComboBoxSizesClick() changes the size of newPizza when a size is selected
+     */
     @FXML
     void onComboBoxSizesClick() {
-        System.out.println("in changecombo");
         String size = String.valueOf(comboBoxSizes.getSelectionModel().getSelectedItem());
-        if (multipleOrders == false) {
-            newPizza.size = sizeToEnum(size);
-        } else {
-            multPizza.size = sizeToEnum(size);
-        }
+        newPizza.size = sizeToEnum(size);
         changePrice();
-
     }
 
+    /**
+     * onAddButtonClick() adds a new topping to our newPizza then changes the display
+     * and moves toppings added to the selected toppings listview
+     */
     @FXML
     void onAddButtonClick() {
-        System.out.println("in add");
         if (null == additionalToppings.getSelectionModel().getSelectedItem()) {
             return;
         }
         String newTopping = (String) additionalToppings.getSelectionModel().getSelectedItem();
         Topping addedTopping = convertToppingToEnum(newTopping);
-        if (multipleOrders == false) {
-            newPizza.addTopping(addedTopping);
-        } else {
-            multPizza.addTopping(addedTopping);
-        }
+        newPizza.addTopping(addedTopping);
         changePrice();
         selectedToppings.getItems().add(additionalToppings.getSelectionModel().getSelectedItem());
         additionalToppings.getItems().remove(additionalToppings.getSelectionModel().getSelectedItem());
-        //call to price change for topping amount change- can use maxToppings and numToppings
     }
 
+    /**
+     * onAddButtonClick() removes a  topping from our newPizza then changes the display
+     * and moves toppings removed to the optional toppings listview
+     */
     @FXML
     void onRemoveButtonClick() {
-        System.out.println("in remove");
         if (null == selectedToppings.getSelectionModel().getSelectedItem()) {
             return;
         }
@@ -179,100 +196,24 @@ public class CustomizationViewController {
         }
         String newTopping = (String) selectedToppings.getSelectionModel().getSelectedItem();
         Topping removedTopping = convertToppingToEnum(newTopping);
-        if (multipleOrders == false) {
-            newPizza.removeTopping(removedTopping);
-        } else {
-            multPizza.removeTopping(removedTopping);
-        }
+        newPizza.removeTopping(removedTopping);
         changePrice();
         additionalToppings.getItems().add(selectedToppings.getSelectionModel().getSelectedItem());
         selectedToppings.getItems().remove(selectedToppings.getSelectionModel().getSelectedItem());
     }
 
-    @FXML
-    void firstOrder() {
-        //Completely new order
-        if(mainController.getCurrentOrder()==null){
-            myPizzas.add(newPizza);
-            Order newOrder = new Order(myPizzas,phoneNumber);
-            currentOrder = newOrder;
-            mainController.setCurrentOrder(newOrder);
-            setListViews(pizzaTypeLabel.getText());
-            changePrice();
-            setComboBox();
-            multipleOrders=true;
-            numOrders++;
-            System.out.println("First ever order: "+currentOrder.toString());
-            doAlert();
-            return;
-        }
-        //New popup pizza but not completely new order
-        if(numOrders==0){
-            Order current = mainController.getCurrentOrder();
-            current.add(newPizza);
-            setListViews(pizzaTypeLabel.getText());
-            changePrice();
-            setComboBox();
-            multipleOrders=true;
-            numOrders++;
-            currentOrder = current;
-            mainController.setCurrentOrder(currentOrder);
-            System.out.println("First popup order: "+currentOrder.toString());
-            doAlert();
-        }
-    }
-    @FXML
-    void evenOrder(){
-        System.out.println("even order: myPizzas = "+myPizzas.toString());
-        //Add our pizza
-        Pizza a = PizzaMaker.createPizza(pizzaTypeLabel.getText());
-        String sized = (String) comboBoxSizes.getSelectionModel().getSelectedItem();
-        a.size = sizeToEnum(sized);
-        a.toppings = convertAllToppingsToEnums(selectedToppings);
-        myPizzas.add(a);
-
-        Order newOrder = new Order(myPizzas, phoneNumber);
-        currentOrder = newOrder;
-        mainController.setCurrentOrder(currentOrder);
-        setListViews(pizzaTypeLabel.getText());
-        changePrice();
-        multipleOrders = true;
-        numOrders++;
-        doAlert();
-        System.out.println("EVENORDER with "+numOrders+" orders so far. Here we go: "+currentOrder.toString());
-
-    }
-    @FXML
-    void oddOrder() {
-        System.out.println("odd order: myPizzas = "+myPizzas.toString());
-        Pizza a = PizzaMaker.createPizza(pizzaTypeLabel.getText());
-        String sized = (String) comboBoxSizes.getSelectionModel().getSelectedItem();
-        a.size = sizeToEnum(sized);
-        a.toppings = convertAllToppingsToEnums(selectedToppings);
-        myPizzas.add(a);
-        Order newOrder = new Order(myPizzas, phoneNumber);
-        currentOrder = newOrder;
-        setListViews(pizzaTypeLabel.getText());
-        changePrice();
-        doAlert();
-        multipleOrders=false;
-        numOrders++;
-        System.out.println("ODDORDERRRRRRR with "+numOrders+" orders so far. Here we go: "+currentOrder.toString());
-    }
-
-    void doAlert() {
-      /*  Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Pizza added to order");
-        alert.setHeaderText("Congrats, you've added a pizza to your order!");
-        alert.setContentText(mainController.getCurrentOrder().toString());
-        alert.showAndWait(); */
-    }
-
+    /**
+     * onAddToOrderButtonClick() takes our order if we have it, then adds
+     * the pizza we're dealing with to that order based on our selections.
+     * Then it sends that order to the HelloController to use.
+     *
+     * @throws IOException
+     */
     @FXML
     public void onAddToOrderButtonClick() throws IOException {
-        if(numOrders==0){
+        if (numOrders == 0) {
             //This is first popup order, but have shopping cart already so grab it
-            if(mainController.getCurrentOrder()!=null){
+            if (mainController.getCurrentOrder() != null) {
                 myPizzas = mainController.getCurrentOrder().getPizzas();
             }
         }
@@ -281,23 +222,23 @@ public class CustomizationViewController {
         a.size = sizeToEnum(sized);
         a.toppings = convertAllToppingsToEnums(selectedToppings);
         myPizzas.add(a);
-        currentOrder = new Order(myPizzas,phoneNumber);
+        currentOrder = new Order(myPizzas, phoneNumber);
         numOrders++;
         mainController.setCurrentOrder(currentOrder);
-        System.out.println(currentOrder.toString());
-        /*
-        if(mainController.getCurrentOrder()==null||numOrders==0){
-            firstOrder();
-        }
-        else if (multipleOrders == false) {
-            evenOrder();
-        }
-        else {
-            oddOrder();
-        }
-         */
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Pizza added to order");
+        alert.setHeaderText("Congrats, you've added a pizza to your order!");
+        alert.setContentText(mainController.getCurrentOrder().toString());
+        alert.showAndWait();
     }
 
+    /**
+     * sizeToEnum takes in a string version of a size enum then returns
+     * the correct enum back.
+     *
+     * @param size
+     * @return
+     */
     public Size sizeToEnum(String size) {
         if (size.equals("Small")) {
             return Size.Small;
@@ -307,10 +248,14 @@ public class CustomizationViewController {
         } else return Size.Large;
     }
 
-    public Order getCurrentOrder() {
-        return this.currentOrder;
-    }
-
+    /**
+     * convertAllToppingsToEnums takes in a ListView of our selected toppings
+     * and returns an arraylist of toppings to put in our pizza we'll add to
+     * the current order by calling convertToppingToEnum for each topping
+     *
+     * @param selectedToppings
+     * @return toppings
+     */
     public ArrayList<Topping> convertAllToppingsToEnums(ListView selectedToppings) {
         ObservableList a = selectedToppings.getItems();
         ArrayList<Topping> toppings = new ArrayList<Topping>();
@@ -322,6 +267,13 @@ public class CustomizationViewController {
         return toppings;
     }
 
+    /**
+     * convertToppingToEnum takes in a string and converts it to the enum version similar
+     * to the sizeToEnum method
+     *
+     * @param topping
+     * @return newTopping in Enum form
+     */
     public Topping convertToppingToEnum(String topping) {
         Topping newTopping = Topping.Pepperoni;
         switch (topping) {

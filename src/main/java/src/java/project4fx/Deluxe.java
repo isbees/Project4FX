@@ -12,7 +12,7 @@ public class Deluxe extends Pizza {
     /**
      * Default constructor
      */
-    public Deluxe(){
+    public Deluxe() {
         size = Size.Small;
         addTopping(Topping.Mozzarella);
         addTopping(Topping.Mushroom);
@@ -27,8 +27,8 @@ public class Deluxe extends Pizza {
      * @param toppings the list of toppings
      * @param size     the size of the pizza
      */
-    public Deluxe(ArrayList<Topping> toppings,Size size){
-        super(toppings,size);
+    public Deluxe(ArrayList<Topping> toppings, Size size) {
+        super(toppings, size);
     }
 
     /**
@@ -39,18 +39,20 @@ public class Deluxe extends Pizza {
     @Override
     public double price() {
         int numToppings = toppings.size();
-
-        if(numToppings < 5) // makes sure the price doesn't change for this pizza if toppings are taken away
+        if (numToppings < 5) // makes sure the price doesn't change for this pizza if toppings are taken away
             numToppings = 5;
-
         double price = (numToppings - 5) * 1.49;   // 5 toppings included already on pizza
-
-        switch (size){
-            case Small: price += 12.99; break;
-            case Medium: price += 14.99; break;
-            case Large: price += 16.99; break;
+        switch (size) {
+            case Small:
+                price += 12.99;
+                break;
+            case Medium:
+                price += 14.99;
+                break;
+            case Large:
+                price += 16.99;
+                break;
         }
-
         return price;
     }
 }

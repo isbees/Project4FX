@@ -106,7 +106,7 @@ public abstract class Pizza {
      * @return String the toppings
      */
     public String toString(){
-        String output = "";
+        String output = "Size = "+size;
 
         for (Topping t : toppings){
             output += t + ", ";
