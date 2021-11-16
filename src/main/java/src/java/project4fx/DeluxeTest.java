@@ -53,7 +53,7 @@ class DeluxeTest {
         six.addTopping(Topping.Ham);
         assertTrue(six.price()==12.99+(6-5)*1.49);
 
-        //Test 7: 8 toppings -> Will never happen as I prevent it in the customizationController
+        //Test 7: 8 toppings -> Will never happen as I prevent it in the customizationController and the rules
         //But if it did, that it'd return the correct amount - assuming we allowed for more toppings than 7
         Pizza seven = PizzaMaker.createPizza(type);
         seven.addTopping(Topping.Pineapple);
