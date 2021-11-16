@@ -125,7 +125,7 @@ public class HelloController {
      * @throws IOException
      */
      void openCustomization(String phoneNumber) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("customization-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("customization-view.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(fxmlLoader.load(), 600, 700);
         CustomizationViewController cView = fxmlLoader.getController();
@@ -157,7 +157,7 @@ public class HelloController {
             alert.showAndWait();
             return;
         }
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("currentorder-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("currentorder-view.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(fxmlLoader.load(), 600, 700);
         CurrentOrderViewController coView = fxmlLoader.getController();
@@ -189,7 +189,7 @@ public class HelloController {
         if(storeOrder.getTotalOrders()==0||storeOrder==null||storeOrder.getOrders()==null){
             return;
         }
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("storeorders-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("storeorders-view.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(fxmlLoader.load(), 600, 700);
         StoreordersViewController soView = fxmlLoader.getController();
