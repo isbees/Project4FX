@@ -118,13 +118,30 @@ public class StoreOrders {
      */
     public String printOrders() {
         String output = "";
-        System.out.println("The Orders: " + orders.size());
 
         for (int i = 0; i < orders.size() - 1; i++) {
             //System.out.println("order: "+ o.printOrder());
             output += orders.get(i).printOrder();
         }
-        System.out.println("Orders: \n" + orders.get(0).printOrder());
+
         return output;
+    }
+
+    /**
+     * Prints one of the orders by index
+     *
+     * @return String the full order information
+     */
+    public String printOrder(int i) {
+        return orders.get(i).toString();
+    }
+
+    /**
+     * Gets the total number of orders in the list
+     *
+     * @return int the number of orders
+     */
+    public int getTotalOrders(){
+        return orders.size();
     }
 }
