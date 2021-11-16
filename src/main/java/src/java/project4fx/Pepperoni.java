@@ -7,12 +7,12 @@ import java.util.ArrayList;
  *
  * @author Isaac Brukhman
  */
-public class Pepperoni extends Pizza{
+public class Pepperoni extends Pizza {
 
     /**
      * Default constructor
      */
-    public Pepperoni(){
+    public Pepperoni() {
         super();
         super.addTopping(Topping.Pepperoni);
     }
@@ -23,7 +23,7 @@ public class Pepperoni extends Pizza{
      * @param toppings the list of toppings
      * @param size     the size of the pizza
      */
-    public Pepperoni(ArrayList<Topping> toppings,Size size) {
+    public Pepperoni(ArrayList<Topping> toppings, Size size) {
         super(toppings, size);
     }
 
@@ -36,15 +36,21 @@ public class Pepperoni extends Pizza{
     public double price() {
         int numToppings = toppings.size();
 
-        if(numToppings < 1) // makes sure the price doesn't change for this pizza if toppings are taken away
+        if (numToppings < 1) // makes sure the price doesn't change for this pizza if toppings are taken away
             numToppings = 1;
 
         double price = (numToppings - 1) * 1.49;    // 1 topping included already pizza
 
-        switch (size){
-            case Small: price += 8.99; break;
-            case Medium: price += 10.99; break;
-            case Large: price += 12.99; break;
+        switch (size) {
+            case Small:
+                price += 8.99;
+                break;
+            case Medium:
+                price += 10.99;
+                break;
+            case Large:
+                price += 12.99;
+                break;
         }
 
         return price;

@@ -46,7 +46,7 @@ public class Order {
     /**
      * Fully parameterized constructor that stores one pizza and phone number
      *
-     * @param pizza      the list of pizzas
+     * @param pizza       the list of pizzas
      * @param phoneNumber the customer's phone number
      */
     public Order(Pizza pizza, String phoneNumber) {
@@ -69,10 +69,10 @@ public class Order {
      * @param pizza that wants to cancel the order
      */
     public void remove(Pizza pizza) {
-        if(pizzas==null){
+        if (pizzas == null) {
             return;
         }
-        if(pizzas.size()==0){
+        if (pizzas.size() == 0) {
             return;
         }
         for (Pizza p : pizzas) {
@@ -86,7 +86,7 @@ public class Order {
     /**
      * removes one pizza from the list even if it occurs more than once
      *
-     * @param pizza that wants to cancel the order
+     * @param index of the pizza that wants to cancel the order
      */
     public void remove(int index) {
         pizzas.remove(index);
@@ -139,7 +139,7 @@ public class Order {
         String output = toString();
         double subTotal = calcSubTotal();
 
-        output += String.format("\n\tSubtotal: %1.2f \nTax: %1.2f \n Order Total: %1.2f \n",subTotal,subTotal*.06625,subTotal+subTotal*.06625);
+        output += String.format("\n\tSubtotal: %1.2f \nTax: %1.2f \n Order Total: %1.2f \n", subTotal, subTotal * .06625, subTotal + subTotal * .06625);
 
         return output;
     }
@@ -152,7 +152,7 @@ public class Order {
     public String toString() {
         String output = "Phone number: " + phoneNumber + "\nFull Order: \n";
         for (Pizza p : pizzas)
-            output += "\n"+findType(p) + "\n Toppings: \n" + p.toString();
+            output += "\n" + findType(p) + "\n Toppings: \n" + p.toString();
         return output;
     }
 
@@ -183,13 +183,30 @@ public class Order {
         }
         return s;
     }
-    public Pizza getPizza(int i){
+
+    /**
+     * getPizza returns an indexed pizza from our pizzas arraylist
+     * @param i
+     * @return pizzas.get(i) which is a pizza at index i from our order's arraylist
+     * of pizzas
+     */
+    public Pizza getPizza(int i) {
         return pizzas.get(i);
     }
-    public void setPizzas(ArrayList<Pizza> newPizzas){
+
+    /**
+     * setPizzas lets us set our list of pizzas to a new arraylist of pizzas
+     * @param newPizzas
+     */
+    public void setPizzas(ArrayList<Pizza> newPizzas) {
         pizzas = newPizzas;
     }
-    public ArrayList<Pizza> getPizzas(){
+
+    /**
+     * getPizzas() returns our arraylist of pizzas from order
+     * @return pizzas which is what we called the arraylist of pizzas
+     */
+    public ArrayList<Pizza> getPizzas() {
         return pizzas;
     }
 }

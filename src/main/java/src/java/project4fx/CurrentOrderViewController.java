@@ -26,7 +26,6 @@ import javafx.scene.image.*;
 public class CurrentOrderViewController {
     Order current = new Order();
     double total, subtotal, tax;
-
     private HelloController mainController;
 
     @FXML
@@ -110,7 +109,6 @@ public class CurrentOrderViewController {
         ObservableList<String> orders;
         for (int i = 0; i < currentOrderInSystem.getTotalPizzas(); i++) {
             listOfOrders[i] = currentOrderInSystem.toString(i);
-            System.out.println(listOfOrders[i]);
         }
         orders = FXCollections.observableArrayList(listOfOrders);
         orderPizzas.setItems(orders);

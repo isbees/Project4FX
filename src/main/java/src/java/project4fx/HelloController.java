@@ -144,6 +144,12 @@ public class HelloController {
         stage.show();
     }
     //Goes to 3rd view
+
+    /**
+     * Opens the third view, the CurrentOrderView Controller but first
+     * checks that the current order isn't null, and sets the page's display
+     * @throws IOException
+     */
     public void openCurrentOrder() throws IOException {
         if(currentOrder==null){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -166,13 +172,11 @@ public class HelloController {
         try {
             double subTotal = currentOrder.calcSubTotal(), tax = currentOrder.calcTax();
             double total = subTotal + tax;
-
             coView.setCustPhoneNumber(currentOrder.getNumber());
             coView.setSubtotal(subTotal);
             coView.setOrderTotal(total);
             coView.setTax(tax);
             coView.setListViews();
-
             stage.setTitle("Current-Orders!");
             stage.setScene(scene);
             stage.show();
@@ -182,11 +186,12 @@ public class HelloController {
             alert.showAndWait();
             return;
         }
-
-
     }
 
-    //Goes to 4th view
+    /**
+     * Opens the 4th view, or store orders view using the StoreordersViewController
+     * @throws IOException
+     */
     public void openStoreOrders() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("storeorders-view.fxml"));
         Stage stage = new Stage();
@@ -203,19 +208,35 @@ public class HelloController {
         stage.show();
     }
 
-
+    /**
+     * lets other controllers access information from within this controller
+     * by returning it
+     * @return this as in the HelloController
+     */
     HelloController getController() {
         return this;
     }
 
+    /**
+     * sets the currentOrder, used in CustomizationViewController
+     * @param newOrder
+     */
     public void setCurrentOrder(Order newOrder){
         currentOrder= newOrder;
     }
 
+    /**
+     * returns the currentOrder, used in CustomizationViewController
+     * @return
+     */
     public Order getCurrentOrder(){
         return this.currentOrder;
     }
 
+    /**
+     * Adds a new order to our Store order
+     * @param order
+     */
     public void addToStoreOrder(Order order){
         storeOrder.add(order);
     }

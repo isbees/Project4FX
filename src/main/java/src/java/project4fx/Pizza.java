@@ -8,6 +8,7 @@ import java.util.ArrayList;
  * @author Isaac Brukhman
  */
 public abstract class Pizza {
+
     protected ArrayList<Topping> toppings = new ArrayList<Topping>();
     protected Size size;
 
@@ -42,10 +43,9 @@ public abstract class Pizza {
      * @param topping the topping trying to be added
      */
     public void addTopping(Topping topping) {
-        //System.out.println("Adding a topping " + topping);
         Topping t;
-        for (int i = 0; i < toppings.size()+1; i++) {
-            if(toppings.isEmpty()) {
+        for (int i = 0; i < toppings.size() + 1; i++) {
+            if (toppings.isEmpty()) {
                 toppings.add(topping);
                 break;
             }
@@ -70,9 +70,15 @@ public abstract class Pizza {
             }
         }
     }
-    public void clearToppings(){
+
+    /**
+     * clearToppings() removes all of the toppings of our pizza and sets its
+     * toppings arraylist of enum Topping to null
+     */
+    public void clearToppings() {
         this.toppings = null;
     }
+
     /**
      * Checks if a pizza is passed and whether it's toppings and size is the same
      *
@@ -105,16 +111,13 @@ public abstract class Pizza {
      *
      * @return String the toppings
      */
-    public String toString(){
-        String output = "Size = "+size;
+    public String toString() {
+        String output = "Size = " + size;
 
-        for (Topping t : toppings){
+        for (Topping t : toppings) {
             output += t + ", ";
         }
 
         return output;
-    }
-    void addToppings(ArrayList<Topping> newToppings){
-        toppings= newToppings;
     }
 }
