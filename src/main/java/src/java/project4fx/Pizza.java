@@ -120,4 +120,7 @@ public abstract class Pizza {
 
         return output;
     }
+    public void setSize(Size newSize){
+        this.size = newSize;
+    }
 }
