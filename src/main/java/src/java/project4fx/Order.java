@@ -94,6 +94,7 @@ public class Order {
 
     /**
      * adds the price of every pizza into the total
+     * @return double subtotal
      */
     public double calcSubTotal() {
         double total = 0;
@@ -107,6 +108,7 @@ public class Order {
 
     /**
      * calculates the tax for the whole order
+     * @return double of the tax
      */
     public double calcTax() {
         return calcSubTotal() * .06625;
@@ -186,7 +188,7 @@ public class Order {
 
     /**
      * getPizza returns an indexed pizza from our pizzas arraylist
-     * @param i
+     * @param i index
      * @return pizzas.get(i) which is a pizza at index i from our order's arraylist
      * of pizzas
      */
@@ -196,7 +198,7 @@ public class Order {
 
     /**
      * setPizzas lets us set our list of pizzas to a new arraylist of pizzas
-     * @param newPizzas
+     * @param newPizzas which is an arraylist of pizzas
      */
     public void setPizzas(ArrayList<Pizza> newPizzas) {
         pizzas = newPizzas;

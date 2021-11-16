@@ -56,6 +56,7 @@ public class StoreordersViewController {
     /**
      * setListViews() sets up the list view by filling it with the orders in
      * the user's current order
+     * @param number takes in photo number
      */
     public void setListView(String number) {
         Order orderToDisplay = new Order();

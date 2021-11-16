@@ -67,7 +67,7 @@ public class HelloController {
     }
     /**
      * Opens a new customizationView with Pepperoni defaults
-     * @throws IOException
+     * @throws IOException if bad load
      */
     @FXML
     void openNewPepperoni() throws IOException {
@@ -76,7 +76,7 @@ public class HelloController {
     }
     /**
      * Opens a new customizationView with Deluxe defaults
-     * @throws IOException
+     * @throws IOException if bad load
      */
     @FXML
     void openNewDeluxe() throws IOException {
@@ -87,7 +87,7 @@ public class HelloController {
     /**
      * Opens a new CustomizationView but first checks that the phone number
      * is valid and doesn't conflict with an existing current order
-     * @throws IOException
+     * @throws IOException if bad load
      */
     public void checkOpenNewCustomization() throws IOException {
         String phoneNumText = custPhoneNumber.getText();
@@ -121,8 +121,8 @@ public class HelloController {
 
     /**
      * Opens up the CustomizationView
-     * @param phoneNumber
-     * @throws IOException
+     * @param phoneNumber of the customer
+     * @throws IOException if bad load
      */
      void openCustomization(String phoneNumber) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("customization-view.fxml"));
@@ -141,7 +141,7 @@ public class HelloController {
     /**
      * Opens the third view, the CurrentOrderView Controller but first
      * checks that the current order isn't null, and sets the page's display
-     * @throws IOException
+     * @throws IOException if bad load
      */
     public void openCurrentOrder() throws IOException {
         if(currentOrder==null){
@@ -183,7 +183,7 @@ public class HelloController {
 
     /**
      * Opens the 4th view, or store orders view using the StoreordersViewController
-     * @throws IOException
+     * @throws IOException if bad load
      */
     public void openStoreOrders() throws IOException {
         if(storeOrder.getTotalOrders()==0||storeOrder==null||storeOrder.getOrders()==null){
@@ -216,7 +216,7 @@ public class HelloController {
 
     /**
      * sets the currentOrder, used in CustomizationViewController
-     * @param newOrder
+     * @param newOrder the new order
      */
     public void setCurrentOrder(Order newOrder){
         currentOrder= newOrder;
@@ -224,7 +224,7 @@ public class HelloController {
 
     /**
      * returns the currentOrder, used in CustomizationViewController
-     * @return
+     * @return currentOrder of this
      */
     public Order getCurrentOrder(){
         return this.currentOrder;
@@ -232,7 +232,7 @@ public class HelloController {
 
     /**
      * Adds a new order to our Store order
-     * @param order
+     * @param order to the store
      */
     public void addToStoreOrder(Order order){
         storeOrder.add(order);
