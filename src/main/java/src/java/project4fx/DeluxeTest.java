@@ -4,12 +4,23 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
+/**
+ * @author Zachary Goldman
+ * DeluxeTest tests the price() method of Deluxe
+ */
 class DeluxeTest {
-    void main(String[] args){
+    /**
+     * main calls to the price that we'll be testing in
+     * @param args
+     */
+    public static void main(String[] args){
         price();
     }
+    /**
+     * Tests the price() method in Deluxe class
+     */
     @org.junit.Test
-    void price() {
+    static void price() {
         //---Tests 1-3 numToppings = 5 defaults, tests different Sizes
 
         String type = "Deluxe";
@@ -47,8 +58,10 @@ class DeluxeTest {
         //Test 7: 8 toppings -> Will never happen as I prevent it in the customizationController
         //But if it did, that it'd return the correct amount - assuming we allowed for more toppings than 7
         Pizza seven = PizzaMaker.createPizza(type);
+        seven.addTopping(Topping.Pineapple);
+        seven.addTopping(Topping.Ham);
         seven.addTopping(Topping.Spinach);
-        assertTrue(six.price()==12.99+(8-5)*1.49);
+        assertTrue(seven.price()==12.99+(8-5)*1.49);
 
     }
 }
