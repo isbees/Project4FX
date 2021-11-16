@@ -125,6 +125,7 @@ public class CustomizationViewController {
      * in the view with the defaults -> small, 5 toppings for deluxe for example,
      * and the price as a result.
      * It also fills in the correct photo and initializes instance variables.
+     *
      */
     @FXML
     public void setPhotoListViewsComboBoxPrice() {
@@ -200,7 +201,7 @@ public class CustomizationViewController {
      * the pizza we're dealing with to that order based on our selections.
      * Then it sends that order to the HelloController to use.
      *
-     * @throws IOException
+     * @throws IOException if bad load
      */
     @FXML
     public void onAddToOrderButtonClick() throws IOException {
@@ -229,8 +230,8 @@ public class CustomizationViewController {
      * sizeToEnum takes in a string version of a size enum then returns
      * the correct enum back.
      *
-     * @param size
-     * @return
+     * @param size of it
+     * @return size thing
      */
     public Size sizeToEnum(String size) {
         if (size.equals("Small")) {
@@ -246,7 +247,7 @@ public class CustomizationViewController {
      * and returns an arraylist of toppings to put in our pizza we'll add to
      * the current order by calling convertToppingToEnum for each topping
      *
-     * @param selectedToppings
+     * @param selectedToppings of the thing
      * @return toppings
      */
     public ArrayList<Topping> convertAllToppingsToEnums(ListView selectedToppings) {
@@ -264,7 +265,7 @@ public class CustomizationViewController {
      * convertToppingToEnum takes in a string and converts it to the enum version similar
      * to the sizeToEnum method
      *
-     * @param topping
+     * @param topping of the pizza
      * @return newTopping in Enum form
      */
     public Topping convertToppingToEnum(String topping) {

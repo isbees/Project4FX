@@ -14,8 +14,8 @@ import java.io.IOException;
  */
 public class Main extends javafx.application.Application {
     /**
-     * @param stage
-     * @throws IOException
+     * @param stage of the thing
+     * @throws IOException if bad load
      */
     @Override
     public void start(Stage stage) throws IOException {
@@ -28,7 +28,7 @@ public class Main extends javafx.application.Application {
 
     /**
      * Main takes in args and launches our program
-     * @param args
+     * @param args in main
      */
     public static void main(String[] args) {
         launch();

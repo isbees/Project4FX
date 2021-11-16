@@ -90,7 +90,8 @@ public class StoreOrders {
     /**
      * Overloaded add that finds the customer and adds a pizza to their
      *
-     * @param customer that wants to order
+     * @param customer, ordering
+     * @param pizza the pizza
      */
     public void add(Order customer, Pizza pizza) {
         int i = find(customer);
@@ -144,7 +145,7 @@ public class StoreOrders {
 
     /**
      * Prints one of the orders by index
-     *
+     * @param i takes in the index
      * @return String the full order information
      */
     public String printOrder(int i) {
